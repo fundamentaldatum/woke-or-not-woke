@@ -155,7 +155,7 @@ function PhotoDescribeApp() {
   } else if (photoStatus === "done" && !showWhy) {
     outputContent = (
       <button
-        className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition"
+        className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition marcellus-regular"
         onClick={() => setShowWhy(true)}
       >
         WHY IS IT WOKE?
@@ -168,7 +168,7 @@ function PhotoDescribeApp() {
           It's actually not MY job to "do the work" for you
         </div>
         <button
-          className="mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition"
+          className="mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition marcellus-regular"
           onClick={() => setShowHow(true)}
         >
           HOW DO I "DO THE WORK?"
@@ -184,7 +184,7 @@ function PhotoDescribeApp() {
             : "No description available."}
         </div>
         <button
-          className="mt-2 bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
+          className="mt-2 bg-blue-700 text-white font-bold py-2 px-4 rounded transition marcellus-regular"
           disabled
         >
           HOW DO I "DO THE WORK?"
@@ -257,8 +257,8 @@ function PhotoDescribeApp() {
       {/* Reset button */}
       {photoStatus === "done" || photoStatus === "error" ? (
         <button
-          className="mt-4 bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition"
-          onClick={handleReset}
+        className="mt-4 bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition marcellus-regular"
+        onClick={handleReset}
         >
           Reset
         </button>

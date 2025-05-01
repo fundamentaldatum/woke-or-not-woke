@@ -7,12 +7,23 @@
   --color-dark: #171717;
 }
 
+.marcellus-regular { 
+  font-family: "Marcellus", serif; 
+  font-weight: 400; 
+  font-style: normal; 
+}
+
 .accent-text {
   @apply text-slate-600;
 }
 
 .button {
   @apply bg-gradient-to-r bg-blue-500;
+}
+
+/* Apply Marcellus font to all buttons */
+button {
+  font-family: "Marcellus", serif;
 }
 
 body {
