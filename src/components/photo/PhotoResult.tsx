@@ -56,7 +56,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
       <div className="flex flex-col items-center">
         <TypewriterText 
           text="It's actually not MY job to 'do the work' for you"
-          className="text-white text-center py-4 font-semibold"
+          className="text-white text-center py-4 font-semibold amatic-sc-bold"
           onComplete={() => setTypingComplete(true)}
           reset={resetTyping}
         />
