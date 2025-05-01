@@ -3,6 +3,19 @@ import { v } from "convex/values";
 import { Id } from "./_generated/dataModel";
 import { internal } from "./_generated/api";
 
+/**
+ * Helper function for structured logging
+ * @param event The event name
+ * @param data The event data
+ */
+function logEvent(event: string, data: Record<string, any>) {
+  console.log(JSON.stringify({
+    timestamp: new Date().toISOString(),
+    event,
+    ...data
+  }));
+}
+
 // List all photos for the current session.
 export const list = query({
   args: {
@@ -44,10 +57,21 @@ export const savePhoto = mutation({
       storageId: args.storageId,
       status: "pending",
     });
-    console.log("[savePhoto] Inserted photo", { photoId, sessionId: args.sessionId, storageId: args.storageId });
+    
+    logEvent("photo_upload_completed", { 
+      photoId: photoId.toString(), 
+      sessionId: args.sessionId, 
+      storageId: args.storageId.toString() 
+    });
+    
     // Schedule the AI description action with a 2-second delay
     await ctx.scheduler.runAfter(2000, internal.photos_actions.describePhoto, { photoId });
-    console.log("[savePhoto] Scheduled describePhoto for", photoId, "with internal.photos_actions.describePhoto");
+    
+    logEvent("photo_analysis_scheduled", { 
+      photoId: photoId.toString(),
+      delay: "2000ms"
+    });
+    
     return photoId;
   },
 });
@@ -78,9 +102,19 @@ export const get = query({
 export const internalGet = internalQuery({
   args: { photoId: v.id("photos") },
   handler: async (ctx, args) => {
-    console.log("[internalGet] CALLED with photoId:", args.photoId);
+    logEvent("internal_photo_fetch", {
+      photoId: args.photoId.toString(),
+      operation: "internalGet"
+    });
+    
     const photo = await ctx.db.get(args.photoId);
-    console.log("[internalGet] photoId:", args.photoId, "photo:", photo);
+    
+    logEvent("internal_photo_fetch_result", {
+      photoId: args.photoId.toString(),
+      found: !!photo,
+      status: photo?.status
+    });
+    
     return photo;
   },
 });
@@ -97,7 +131,12 @@ export const setDescription = mutation({
       status: "done",
       error: undefined,
     });
-    console.log("[setDescription] Description set for", args.photoId);
+    
+    logEvent("photo_analysis_completed", {
+      photoId: args.photoId.toString(),
+      descriptionLength: args.description.length,
+      status: "done"
+    });
   },
 });
 
@@ -112,6 +151,11 @@ export const setError = mutation({
       status: "error",
       error: args.error,
     });
-    console.error("[setError] Error set for", args.photoId, args.error);
+    
+    logEvent("photo_analysis_error", {
+      photoId: args.photoId.toString(),
+      error: args.error,
+      status: "error"
+    });
   },
 });

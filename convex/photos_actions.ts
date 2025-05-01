@@ -4,30 +4,63 @@ import { internalAction } from "./_generated/server";
 import { api, internal } from "./_generated/api";
 import { v } from "convex/values";
 
+/**
+ * Helper function for structured logging
+ * @param event The event name
+ * @param data The event data
+ */
+function logEvent(event: string, data: Record<string, any>) {
+  console.log(JSON.stringify({
+    timestamp: new Date().toISOString(),
+    event,
+    ...data
+  }));
+}
+
 export const describePhoto = internalAction({
   args: { photoId: v.id("photos") },
   handler: async (ctx, args) => {
-    console.log("[describePhoto] START", { photoId: args.photoId });
+    logEvent("photo_analysis_started", { 
+      photoId: args.photoId.toString() 
+    });
+    
     // Use internal.photos.internalGet, NOT api.photos.get
     const photo = await ctx.runQuery(internal.photos.internalGet, { photoId: args.photoId });
-    console.log("[describePhoto] Fetched photo:", photo);
+    
     if (!photo) {
-      console.error("[describePhoto] Photo not found for photoId", args.photoId);
+      logEvent("photo_analysis_error", {
+        photoId: args.photoId.toString(),
+        error: "Photo not found",
+        stage: "fetch"
+      });
+      
       await ctx.runMutation(api.photos.setError, {
         photoId: args.photoId,
         error: "Photo not found",
       });
       return;
     }
+    
     // Download image from Convex storage
     let imageBuffer: ArrayBuffer;
     try {
       const blob: Blob | null = await ctx.storage.get(photo.storageId);
       if (!blob) throw new Error("Image not found in storage");
       imageBuffer = await blob.arrayBuffer();
-      console.log("[describePhoto] Downloaded image from storage for", photo._id);
+      
+      logEvent("photo_download_completed", {
+        photoId: photo._id.toString(),
+        storageId: photo.storageId.toString(),
+        size: imageBuffer.byteLength
+      });
     } catch (err) {
-      console.error("[describePhoto] Failed to download image", err);
+      logEvent("photo_analysis_error", {
+        photoId: args.photoId.toString(),
+        error: "Failed to download image",
+        stage: "download",
+        errorDetails: err instanceof Error ? err.message : String(err)
+      });
+      
       await ctx.runMutation(api.photos.setError, {
         photoId: args.photoId,
         error: "Failed to download image",
@@ -49,7 +82,12 @@ export const describePhoto = internalAction({
       });
 
       const prompt = "Describe this image in a single, clear English sentence.";
-      console.log("[describePhoto] Sending image to OpenAI for", photo._id);
+      
+      logEvent("openai_request_started", {
+        photoId: photo._id.toString(),
+        model: "gpt-4.1-nano-2025-04-14",
+        maxTokens: 128
+      });
       const response = await openai.chat.completions.create({
         model: "gpt-4.1-nano-2025-04-14",
         messages: [
@@ -68,20 +106,46 @@ export const describePhoto = internalAction({
         response.choices?.[0]?.message?.content?.trim() ||
         "No description generated.";
 
-      console.log("[describePhoto] OpenAI response:", description);
+      logEvent("openai_request_completed", {
+        photoId: photo._id.toString(),
+        descriptionLength: description.length,
+        responseTime: response.usage?.total_tokens
+      });
 
       await ctx.runMutation(api.photos.setDescription, {
         photoId: args.photoId,
         description,
       });
-      console.log("[describePhoto] Set description for", photo._id);
+      
+      logEvent("photo_description_saved", {
+        photoId: photo._id.toString(),
+        status: "done"
+      });
     } catch (err: any) {
-      console.error("[describePhoto] OpenAI error", err);
+      logEvent("openai_request_error", {
+        photoId: args.photoId.toString(),
+        error: err?.message || "Unknown error",
+        errorType: err?.name || "Unknown",
+        errorCode: err?.code || "none",
+        status: err?.status || "unknown"
+      });
+      
+      // More specific error messages based on error type
+      let errorMessage = "Failed to generate description with OpenAI.";
+      
+      if (err.name === "AbortError") {
+        errorMessage = "Request timed out. Please try again.";
+      } else if (err.status === 429) {
+        errorMessage = "Too many requests. Please try again later.";
+      } else if (err.code === "insufficient_quota") {
+        errorMessage = "API quota exceeded. Please try again later.";
+      } else if (err.message) {
+        errorMessage = err.message.toString();
+      }
+      
       await ctx.runMutation(api.photos.setError, {
         photoId: args.photoId,
-        error:
-          err?.message?.toString?.() ||
-          "Failed to generate description with OpenAI.",
+        error: errorMessage
       });
     }
   },
