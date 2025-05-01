@@ -3,6 +3,8 @@ import { useSession, usePhotoUpload, usePhotoAnalysis } from '../../hooks';
 import { PhotoUpload } from './PhotoUpload';
 import { PhotoResult } from './PhotoResult';
 import { SpinnerButton } from '../ui';
+import TestButton from '../ui/TestButton';
+import { createBlankWhiteImage } from '../../lib/utils';
 
 /**
  * Main component for photo analysis functionality
@@ -43,6 +45,27 @@ const PhotoAnalysis: React.FC = () => {
     sessionId,
     updateState
   );
+  
+  // Handle test button click - creates and sets a blank white image
+  const handleTestButtonClick = useCallback(async () => {
+    try {
+      const blankImage = await createBlankWhiteImage();
+      
+      // Set the blank image as the selected file
+      updateState({
+        selectedFile: blankImage,
+        previewUrl: URL.createObjectURL(blankImage),
+        photoStatus: "idle",
+        error: "",
+        showWhy: false,
+        showHow: false,
+        latestPhotoId: null
+      });
+    } catch (err: any) {
+      console.error("Error creating test image:", err);
+      updateState({ error: "Failed to create test image" });
+    }
+  }, [updateState]);
 
   return (
     <div className="flex flex-col items-center w-full max-w-md mx-auto px-2">
@@ -88,6 +111,9 @@ const PhotoAnalysis: React.FC = () => {
           Reset
         </button>
       ) : null}
+      
+      {/* Test Button for debugging */}
+      <TestButton onClick={handleTestButtonClick} />
     </div>
   );
 };

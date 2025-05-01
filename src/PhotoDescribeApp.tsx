@@ -1,10 +1,12 @@
 import React, { useRef, useState, useEffect } from "react";
 import SpinnerButton from "./components/SpinnerButton";
 import PixelateOverlay from "./components/PixelateOverlay";
+import TestButton from "./components/ui/TestButton";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { Id } from "../convex/_generated/dataModel";
 import { getSessionId } from "./lib/sessionUtils";
+import { createBlankWhiteImage } from "./lib/utils";
 
 type PhotoStatus = "idle" | "pending" | "done" | "error";
 
@@ -138,6 +140,26 @@ function PhotoDescribeApp() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
+  // Handle test button click - creates and sets a blank white image
+  const handleTestButtonClick = async () => {
+    try {
+      const blankImage = await createBlankWhiteImage();
+      
+      // Set the blank image as the selected file
+      setSelectedFile(blankImage);
+      setPreviewUrl(URL.createObjectURL(blankImage));
+      setPhotoStatus("idle");
+      setError("");
+      setShowResult(false);
+      setShowWhy(false);
+      setShowHow(false);
+      setLatestPhotoId(null);
+    } catch (err: any) {
+      console.error("Error creating test image:", err);
+      setError("Failed to create test image");
+    }
+  };
+
   // Output field logic
   let outputContent: React.ReactNode = null;
   if (photoStatus === "pending") {
@@ -263,6 +285,9 @@ function PhotoDescribeApp() {
           Reset
         </button>
       ) : null}
+      
+      {/* Test Button for debugging */}
+      <TestButton onClick={handleTestButtonClick} />
     </div>
   );
 }
