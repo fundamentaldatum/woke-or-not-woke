@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Woke or Not Woke - Deployment Script
+# Woke or Not Woke - Deployment Script.
 # This script builds the application and provides instructions for deploying to Cloudflare Pages
 
 echo "🚀 Building Woke or Not Woke for deployment..."
