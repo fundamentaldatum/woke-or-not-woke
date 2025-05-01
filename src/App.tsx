@@ -1,13 +1,7 @@
-import { useQuery } from "convex/react";
-import { api } from "../convex/_generated/api";
 import PhotoDescribeApp from "./PhotoDescribeApp";
-import { SignInForm } from "./SignInForm";
-import { SignOutButton } from "./SignOutButton";
 import { useMemo } from "react";
 
 export default function App() {
-  const user = useQuery(api.auth.loggedInUser);
-
   // Randomize color assignment on mount
   const [wokeColor, notWokeColor] = useMemo(() => {
     // true: WOKE is red, NOT WOKE is blue; false: WOKE is blue, NOT WOKE is red
@@ -52,18 +46,7 @@ export default function App() {
       </header>
       <main className="flex-1 flex flex-col items-center justify-start w-full px-2">
         <div className="w-full max-w-2xl mx-auto mt-8">
-          {!user ? (
-            <div className="flex flex-col items-center justify-center min-h-[40vh]">
-              <SignInForm />
-            </div>
-          ) : (
-            <>
-              <PhotoDescribeApp />
-              <div className="flex justify-center mt-8">
-                <SignOutButton />
-              </div>
-            </>
-          )}
+          <PhotoDescribeApp />
         </div>
       </main>
     </div>

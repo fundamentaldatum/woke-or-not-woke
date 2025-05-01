@@ -1,18 +1,17 @@
 import { mutation, query, internalQuery } from "./_generated/server";
 import { v } from "convex/values";
-import { getAuthUserId } from "@convex-dev/auth/server";
 import { Id } from "./_generated/dataModel";
 import { internal } from "./_generated/api";
 
-// List all photos for the current user.
+// List all photos for the current session.
 export const list = query({
-  args: {},
-  handler: async (ctx) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) return [];
+  args: {
+    sessionId: v.string(),
+  },
+  handler: async (ctx, args) => {
     const photos = await ctx.db
       .query("photos")
-      .withIndex("by_user", (q) => q.eq("userId", userId))
+      .withIndex("by_session", (q) => q.eq("sessionId", args.sessionId))
       .order("desc")
       .collect();
     // Attach signed URLs for display
@@ -37,16 +36,15 @@ export const generateUploadUrl = mutation({
 export const savePhoto = mutation({
   args: {
     storageId: v.id("_storage"),
+    sessionId: v.string(),
   },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) throw new Error("Not authenticated");
     const photoId = await ctx.db.insert("photos", {
-      userId,
+      sessionId: args.sessionId,
       storageId: args.storageId,
       status: "pending",
     });
-    console.log("[savePhoto] Inserted photo", { photoId, userId, storageId: args.storageId });
+    console.log("[savePhoto] Inserted photo", { photoId, sessionId: args.sessionId, storageId: args.storageId });
     // Schedule the AI description action with a 2-second delay
     await ctx.scheduler.runAfter(2000, internal.photos_actions.describePhoto, { photoId });
     console.log("[savePhoto] Scheduled describePhoto for", photoId, "with internal.photos_actions.describePhoto");
@@ -54,14 +52,21 @@ export const savePhoto = mutation({
   },
 });
 
-// Get a single photo (with signed URL) - for client, checks user
+// Get a single photo (with signed URL) - for client, checks session
 export const get = query({
-  args: { photoId: v.id("photos") },
+  args: { 
+    photoId: v.id("photos"),
+    sessionId: v.string(),
+  },
   handler: async (ctx, args) => {
-    const userId = await getAuthUserId(ctx);
-    if (!userId) return null;
     const photo = await ctx.db.get(args.photoId);
-    if (!photo || photo.userId !== userId) return null;
+    // Handle both new photos with sessionId and old photos with userId
+    if (!photo) return null;
+    
+    // For new photos, check sessionId
+    if (photo.sessionId && photo.sessionId !== args.sessionId) return null;
+    
+    // For old photos, allow access (they're already public)
     return {
       ...photo,
       url: await ctx.storage.getUrl(photo.storageId),

@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import SpinnerButton from "./components/SpinnerButton";
 import PixelateOverlay from "./components/PixelateOverlay";
 import { useMutation, useQuery } from "convex/react";
 import { api } from "../convex/_generated/api";
 import { Id } from "../convex/_generated/dataModel";
+import { getSessionId } from "./lib/sessionUtils";
 
 type PhotoStatus = "idle" | "pending" | "done" | "error";
 
@@ -27,6 +28,12 @@ function PhotoDescribeApp() {
   const [showResult, setShowResult] = useState(false);
   const [showWhy, setShowWhy] = useState(initialState.showWhy);
   const [showHow, setShowHow] = useState(initialState.showHow);
+  const [sessionId, setSessionId] = useState<string>("");
+
+  // Get session ID on component mount
+  useEffect(() => {
+    setSessionId(getSessionId());
+  }, []);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -35,7 +42,7 @@ function PhotoDescribeApp() {
   const savePhoto = useMutation(api.photos.savePhoto);
   const photo = useQuery(
     api.photos.get,
-    latestPhotoId ? { photoId: latestPhotoId } : "skip"
+    latestPhotoId && sessionId ? { photoId: latestPhotoId, sessionId } : "skip"
   );
 
   // Handle file selection
@@ -71,7 +78,7 @@ function PhotoDescribeApp() {
 
   // Handle spinner button click
   const handleSpinAndSubmit = async () => {
-    if (!selectedFile) return;
+    if (!selectedFile || !sessionId) return;
     setError("");
     setPhotoStatus("idle");
     setShowResult(false);
@@ -93,7 +100,7 @@ function PhotoDescribeApp() {
       }
       const { storageId } = json;
       // Step 3: Save photo metadata and schedule LLM
-      const photoId = await savePhoto({ storageId });
+      const photoId = await savePhoto({ storageId, sessionId });
       setLatestPhotoId(photoId);
       setPhotoStatus("pending");
     } catch (err: any) {
