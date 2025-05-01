@@ -1,28 +1,55 @@
-# WOKE OR NOT WOKE
-  
-This is a project built with [Chef](https://chef.convex.dev) using [Convex](https://convex.dev) as its backend.
-  
-This project is connected to the Convex deployment named [`fast-grasshopper-579`](https://dashboard.convex.dev/d/fast-grasshopper-579).
-  
-## Project structure
-  
-The frontend code is in the `app` directory and is built with [Vite](https://vitejs.dev/).
-  
-The backend code is in the `convex` directory.
-  
-`npm run dev` will start the frontend and backend servers.
+# Woke or Not Woke
 
-## App authentication
+An interactive web application that allows users to upload photos for AI-powered analysis. The app features a playful interface with "WOKE" and "NOT WOKE" labels (with randomized colors) and a multi-step reveal process.
 
-Chef apps use [Convex Auth](https://auth.convex.dev/) with Anonymous auth for easy sign in. You may wish to change this before deploying your app.
+## Tech Stack
 
-## Developing and deploying your app
+- Frontend: React with TypeScript, using Vite as the build tool
+- Backend: Convex for serverless backend functions and database
+- Storage: Convex Storage for image files
+- AI: OpenAI's Vision API for image description generation
+- Session Management: Browser localStorage for maintaining user sessions
 
-Check out the [Convex docs](https://docs.convex.dev/) for more information on how to develop with Convex.
-* If you're new to Convex, the [Overview](https://docs.convex.dev/understanding/) is a good place to start
-* Check out the [Hosting and Deployment](https://docs.convex.dev/production/) docs for how to deploy your app
-* Read the [Best Practices](https://docs.convex.dev/understanding/best-practices/) guide for tips on how to improve you app further
+## Development
 
-## HTTP API
+To run the application locally:
 
-User-defined http routes are defined in the `convex/router.ts` file. We split these routes into a separate file from `convex/http.ts` to allow us to prevent the LLM from modifying the authentication routes.
+```bash
+# Install dependencies
+npm install
+
+# Start the development server (frontend + backend)
+npm run dev
+```
+
+## Deployment
+
+This application is deployed to Cloudflare Pages with the following configuration:
+
+### Cloudflare Pages Configuration
+
+- **Build command**: `npm run build`
+- **Build output directory**: `dist`
+- **Environment variables**:
+  - `VITE_CONVEX_URL`: The URL for the Convex deployment
+
+### Custom Domains
+
+The application is deployed to:
+- wokeornotwoke.org
+- wokeornotwoke.com
+
+### Deployment Process
+
+1. Push changes to the GitHub repository
+2. Cloudflare Pages automatically builds and deploys the application
+3. The application connects to the Convex backend (deployment: fast-grasshopper-579)
+
+## Features
+
+- Photo upload via drag-and-drop or file selection
+- Image analysis using OpenAI's Vision API
+- Playful UI with randomized color scheme for "WOKE" and "NOT WOKE" labels
+- Multi-step reveal process with "WHY IS IT WOKE?" and "HOW DO I 'DO THE WORK?'" buttons
+- Pixelation effect during image analysis
+- Session-based user tracking without requiring sign-in
