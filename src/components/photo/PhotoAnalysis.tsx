@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSession, usePhotoUpload, usePhotoAnalysis } from '../../hooks';
 import { PhotoUpload } from './PhotoUpload';
 import { PhotoResult } from './PhotoResult';
@@ -23,6 +23,20 @@ const PhotoAnalysis: React.FC = () => {
     handleReset
   } = usePhotoUpload(sessionId);
   
+  // Memoize the callbacks for setting showWhy and showHow
+  const handleSetShowWhy = useCallback((show: boolean) => {
+    updateState({ showWhy: show });
+  }, [updateState]);
+  
+  const handleSetShowHow = useCallback((show: boolean) => {
+    updateState({ showHow: show });
+  }, [updateState]);
+  
+  // Memoize the submit callback
+  const handleSpinnerSubmit = useCallback(async () => {
+    await handleSubmit();
+  }, [handleSubmit]);
+  
   // Photo analysis state
   const { photo } = usePhotoAnalysis(
     state.latestPhotoId,
@@ -46,9 +60,7 @@ const PhotoAnalysis: React.FC = () => {
         <SpinnerButton
           spinning={spinning}
           setSpinning={setSpinning}
-          onFinalTrue={async () => {
-            await handleSubmit();
-          }}
+          onFinalTrue={handleSpinnerSubmit}
           disabled={!state.selectedFile || state.photoStatus === "pending"}
           showResult={state.photoStatus === "done"}
         />
@@ -62,8 +74,8 @@ const PhotoAnalysis: React.FC = () => {
           showWhy={state.showWhy}
           showHow={state.showHow}
           description={photo?.description}
-          setShowWhy={(show) => updateState({ showWhy: show })}
-          setShowHow={(show) => updateState({ showHow: show })}
+          setShowWhy={handleSetShowWhy}
+          setShowHow={handleSetShowHow}
         />
       </div>
 

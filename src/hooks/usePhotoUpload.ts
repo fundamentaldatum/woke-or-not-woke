@@ -2,7 +2,7 @@
  * Hook for managing photo upload functionality
  */
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useCallback } from 'react';
 import { PhotoState } from '../types';
 import { useMutation } from 'convex/react';
 import { api } from '../../convex/_generated/api';
@@ -29,9 +29,18 @@ export function usePhotoUpload(sessionId: string) {
   const savePhoto = useMutation(api.photos.savePhoto);
 
   /**
-   * Handle file selection from input
+   * Update state partially
+   * Memoized to prevent infinite re-renders
    */
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const updateState = useCallback((newState: Partial<PhotoState>) => {
+    setState(prev => ({ ...prev, ...newState }));
+  }, []);
+
+  /**
+   * Handle file selection from input
+   * Memoized to prevent unnecessary re-renders
+   */
+  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0] || null;
     if (file) {
       updateState({
@@ -44,12 +53,13 @@ export function usePhotoUpload(sessionId: string) {
         showHow: false,
       });
     }
-  };
+  }, [updateState]);
 
   /**
    * Handle file drop from drag and drop
+   * Memoized to prevent unnecessary re-renders
    */
-  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+  const handleDrop = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
     if (file) {
@@ -63,12 +73,13 @@ export function usePhotoUpload(sessionId: string) {
         showHow: false,
       });
     }
-  };
+  }, [updateState]);
 
   /**
    * Handle photo submission for analysis
+   * Memoized to prevent unnecessary re-renders
    */
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     if (!state.selectedFile || !sessionId) return;
     
     updateState({
@@ -108,12 +119,13 @@ export function usePhotoUpload(sessionId: string) {
         photoStatus: "error",
       });
     }
-  };
+  }, [state.selectedFile, sessionId, updateState, generateUploadUrl, savePhoto]);
 
   /**
    * Reset all state
+   * Memoized to prevent unnecessary re-renders
    */
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     updateState({
       selectedFile: null,
       previewUrl: "",
@@ -125,14 +137,7 @@ export function usePhotoUpload(sessionId: string) {
     });
     
     if (fileInputRef.current) fileInputRef.current.value = "";
-  };
-
-  /**
-   * Update state partially
-   */
-  const updateState = (newState: Partial<PhotoState>) => {
-    setState(prev => ({ ...prev, ...newState }));
-  };
+  }, [updateState, fileInputRef]);
 
   return {
     state,
