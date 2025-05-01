@@ -66,7 +66,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
               />
               <TypewriterText 
                 text="MY"
-                className="inline font-black"
+                className="inline font-black text-glow"
                 typingSpeed={60}
                 onComplete={() => {}}
                 reset={resetTyping}
