@@ -54,12 +54,33 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   if (photoStatus === "done" && showWhy && !showHow) {
     return (
       <div className="flex flex-col items-center">
-        <TypewriterText 
-          text="It's actually not MY job to 'do the work' for you"
-          className="text-white text-center py-4 font-semibold amatic-sc-bold"
-          onComplete={() => setTypingComplete(true)}
-          reset={resetTyping}
-        />
+        <div className="text-white text-center py-4 font-semibold amatic-sc-bold text-4xl">
+          {showWhy && (
+            <>
+              <TypewriterText 
+                text="It's actually not "
+                className="inline"
+                typingSpeed={60}
+                onComplete={() => {}}
+                reset={resetTyping}
+              />
+              <TypewriterText 
+                text="MY"
+                className="inline font-black"
+                typingSpeed={60}
+                onComplete={() => {}}
+                reset={resetTyping}
+              />
+              <TypewriterText 
+                text=" job to 'do the work' for you"
+                className="inline"
+                typingSpeed={60}
+                onComplete={() => setTypingComplete(true)}
+                reset={resetTyping}
+              />
+            </>
+          )}
+        </div>
         {typingComplete && (
           <button
             className="mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition"
