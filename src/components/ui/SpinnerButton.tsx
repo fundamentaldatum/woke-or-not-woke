@@ -18,6 +18,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   const [isSpinning, setIsSpinning] = useState(false);
   const [bounce, setBounce] = useState(false);
   const [finalSnap, setFinalSnap] = useState(false);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   // Color assignment for this spin
   const [wokeColor, setWokeColor] = useState(COLORS.RED);
@@ -75,6 +76,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
           spinTimeout.current = setTimeout(spinStep, delay);
         } else {
           setFinalSnap(true);
+          setIsTransitioning(true); // Mark that we're transitioning to the result
           setTimeout(() => {
             setPosition(0); // "WOKE"
             setTimeout(() => {
@@ -82,6 +84,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
               setIsSpinning(false);
               setFinalSnap(false);
               setSpinning(false);
+              setIsTransitioning(false); // End of transition
             }, 180);
           }, 120);
         }
@@ -188,8 +191,8 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
       tabIndex={0}
       aria-label="IS IT WOKE?"
     >
-      {/* Idle */}
-      {!spinning && !showResult && (
+      {/* Idle - only show when truly idle (not transitioning) */}
+      {!spinning && !showResult && !isTransitioning && (
         <span className="block w-full text-center">IS IT WOKE?</span>
       )}
       {/* Spinner */}
@@ -229,8 +232,8 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
           </span>
         </span>
       )}
-      {/* Result */}
-      {!spinning && showResult && (
+      {/* Result - show during transition or when result is ready */}
+      {(!spinning && showResult) || isTransitioning ? (
         <span
           className="block w-full text-center"
           style={{
@@ -244,7 +247,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
         >
           WOKE
         </span>
-      )}
+      ) : null}
     </button>
   );
 };
