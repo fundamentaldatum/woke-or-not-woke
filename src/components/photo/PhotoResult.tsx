@@ -19,7 +19,8 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   const [typingComplete, setTypingComplete] = useState(false);
   const [resetTyping, setResetTyping] = useState(false);
   const [resetDescriptionTyping, setResetDescriptionTyping] = useState(false);
-  
+  const [showDescriptionTyping, setShowDescriptionTyping] = useState(false);
+
   // Reset typing state when showWhy changes
   useEffect(() => {
     setTypingComplete(false);
@@ -30,6 +31,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   useEffect(() => {
     if (showHow) {
       setResetDescriptionTyping(prev => !prev);
+      setShowDescriptionTyping(false); // Make sure description doesn't re-appear on its own
     }
   }, [showHow]);
 
@@ -40,7 +42,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
       </div>
     );
   }
-  
+
   if (photoStatus === "error" && error) {
     return (
       <div className="text-red-500 font-semibold text-center py-4">
@@ -48,7 +50,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
       </div>
     );
   }
-  
+
   if (photoStatus === "done" && !showWhy) {
     return (
       <button
@@ -59,28 +61,28 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
       </button>
     );
   }
-  
+
   if (photoStatus === "done" && showWhy && !showHow) {
     return (
       <div className="flex flex-col items-center">
         <div className="text-white text-center py-4 font-semibold amatic-sc-bold text-4xl">
           {showWhy && (
             <>
-              <TypewriterText 
+              <TypewriterText
                 text="It's actually not "
                 className="inline"
                 typingSpeed={60}
                 onComplete={() => {}}
                 reset={resetTyping}
               />
-              <TypewriterText 
+              <TypewriterText
                 text="MY"
                 className="inline font-black text-glow"
                 typingSpeed={60}
                 onComplete={() => {}}
                 reset={resetTyping}
               />
-              <TypewriterText 
+              <TypewriterText
                 text=" job to 'do the work' for you"
                 className="inline"
                 typingSpeed={60}
@@ -101,12 +103,19 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
       </div>
     );
   }
-  
+
   if (photoStatus === "done" && showWhy && showHow) {
     return (
       <div className="flex flex-col items-center">
         <div className="text-white text-center py-4 font-semibold">
-          {description ? (
+          <TypewriterText
+            text="If you MUST know... "
+            className="inline"
+            typingSpeed={50}
+            onComplete={() => setShowDescriptionTyping(true)}
+            reset={resetDescriptionTyping}
+          />
+          {showDescriptionTyping && description && (
             <TypewriterText
               text={description}
               className="inline"
@@ -114,9 +123,8 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
               onComplete={() => {}}
               reset={resetDescriptionTyping}
             />
-          ) : (
-            "No description available."
           )}
+          {showDescriptionTyping && !description && "No description available."}
         </div>
         <button
           className="mt-2 bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
@@ -127,7 +135,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
       </div>
     );
   }
-  
+
   return null;
 };
 
