@@ -84,8 +84,8 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
           setFinalSnap(false);
 
           setIsFlashing(true);
-          setConfettiActive(true);
           setRenderConfetti(true);
+          setConfettiActive(true);
 
           flashTimeout.current = setTimeout(() => {
             setIsFlashing(false);
@@ -96,7 +96,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
             setConfettiActive(false);
           }, 2500);
           
-          // Unmount the confetti component after 4 seconds
+          // Unmount the confetti component after 4 seconds to allow all particles to fall
           unmountConfettiTimeout.current = setTimeout(() => {
             setRenderConfetti(false);
           }, 4000);

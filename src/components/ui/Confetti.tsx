@@ -10,7 +10,6 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive }) => {
   const particlesRef = useRef<any[]>([]);
   const animationFrameId = useRef<number | null>(null);
 
-  // This ref tracks the prop without re-triggering the effect
   const isActiveRef = useRef(isActive);
   isActiveRef.current = isActive;
 
@@ -23,8 +22,7 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive }) => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Create particles only when the confetti shower starts
-    if (isActive) {
+    if (isActive && particlesRef.current.length === 0) {
       const numberOfConfetti = 200;
       for (let i = 0; i < numberOfConfetti; i++) {
         particlesRef.current.push({
@@ -60,7 +58,6 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive }) => {
           ctx.fillRect(-particle.width / 2, -particle.height / 2, particle.width, particle.height);
           ctx.restore();
         } else if (isActiveRef.current) {
-          // Recycle particles only if the confetti is still active
           activeParticles++;
           particle.y = -20;
           particle.x = Math.random() * canvas.width;
@@ -70,13 +67,14 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive }) => {
       if (activeParticles > 0) {
         animationFrameId.current = requestAnimationFrame(animate);
       } else {
-        // Stop animation completely when all particles are off-screen
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
         animationFrameId.current = null;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        particlesRef.current = [];
       }
     };
 
-    if (!animationFrameId.current) {
+    if (isActive && !animationFrameId.current) {
         animate();
     }
 
