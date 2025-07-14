@@ -101,7 +101,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
               )}
               {showJob && (
                 <TypewriterText
-                  text=" job to 'do the work' for you"
+                  text={` job to "do the work" for you`}
                   className="inline"
                   typingSpeed={60}
                   onComplete={() => setTypingComplete(true)}
