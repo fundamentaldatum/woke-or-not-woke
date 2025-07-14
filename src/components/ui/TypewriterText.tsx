@@ -12,7 +12,8 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
   typingSpeed = ANIMATION.TYPEWRITER_SPEED,
   startDelay = ANIMATION.TYPEWRITER_DELAY,
   onComplete,
-  reset = false
+  reset = false,
+  showCursor = true,
 }) => {
   const [displayedText, setDisplayedText] = useState('');
   const [isComplete, setIsComplete] = useState(false);
@@ -89,7 +90,7 @@ const TypewriterText: React.FC<TypewriterTextProps> = ({
   return (
     <div className={className}>
       {displayedText}
-      {!isComplete && <span className="inline-block w-1 h-4 ml-0.5 bg-white animate-pulse"></span>}
+      {showCursor && !isComplete && <span className="inline-block w-1 h-4 ml-0.5 bg-white animate-pulse"></span>}
     </div>
   );
 };

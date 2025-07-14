@@ -56,4 +56,5 @@ export interface TypewriterTextProps {
   startDelay?: number;
   onComplete?: () => void;
   reset?: boolean;
+  showCursor?: boolean;
 }

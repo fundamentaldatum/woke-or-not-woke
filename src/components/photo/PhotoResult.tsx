@@ -80,6 +80,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                 typingSpeed={60}
                 onComplete={() => {}}
                 reset={resetTyping}
+                showCursor={false}
               />
               <TypewriterText
                 text="MY"
@@ -87,6 +88,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                 typingSpeed={60}
                 onComplete={() => {}}
                 reset={resetTyping}
+                showCursor={false}
               />
               <TypewriterText
                 text=" job to 'do the work' for you"
@@ -94,6 +96,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                 typingSpeed={60}
                 onComplete={() => setTypingComplete(true)}
                 reset={resetTyping}
+                showCursor={true}
               />
             </>
           )}
