@@ -18,12 +18,21 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   // Declare state at the top level of the component
   const [typingComplete, setTypingComplete] = useState(false);
   const [resetTyping, setResetTyping] = useState(false);
+  const [resetDescriptionTyping, setResetDescriptionTyping] = useState(false);
   
   // Reset typing state when showWhy changes
   useEffect(() => {
     setTypingComplete(false);
     setResetTyping(prev => !prev); // Toggle reset to trigger animation restart
   }, [showWhy]);
+
+  // Reset description typing state when showHow changes
+  useEffect(() => {
+    if (showHow) {
+      setResetDescriptionTyping(prev => !prev);
+    }
+  }, [showHow]);
+
   if (photoStatus === "pending") {
     return (
       <div className="text-yellow-400 font-semibold text-center py-4">
@@ -97,7 +106,17 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
     return (
       <div className="flex flex-col items-center">
         <div className="text-white text-center py-4 font-semibold">
-          {description ? description : "No description available."}
+          {description ? (
+            <TypewriterText
+              text={description}
+              className="inline"
+              typingSpeed={30}
+              onComplete={() => {}}
+              reset={resetDescriptionTyping}
+            />
+          ) : (
+            "No description available."
+          )}
         </div>
         <button
           className="mt-2 bg-blue-700 text-white font-bold py-2 px-4 rounded transition"
