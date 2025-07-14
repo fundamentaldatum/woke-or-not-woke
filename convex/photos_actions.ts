@@ -75,16 +75,16 @@ export const describePhoto = internalAction({
 
     // Call OpenAI Vision API
     try {
-      // Use your project-specific OpenAI API key from env.
-      const OpenAI = require("openai").default;
-      const openai = new OpenAI({
-        apiKey: process.env.OPENAI_API_KEY,
-      });
+    // Use your project-specific OpenAI API key from env.
+    const OpenAI = require("openai").default;
+    const openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
 
-      const prompt = "Describe this image in a single, clear English sentence.";
-      
-      logEvent("openai_request_started", {
-        photoId: photo._id.toString(),
+  const prompt = "Describe this image and its unique relationship to Mormonism and the Church of Latter-Day Saints.";
+  
+  logEvent("openai_request_started", {
+    photoId: photo._id.toString(),
         model: "gpt-4.1-nano-2025-04-14",
         maxTokens: 128
       });
