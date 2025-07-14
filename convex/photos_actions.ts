@@ -81,7 +81,7 @@ export const describePhoto = internalAction({
       apiKey: process.env.OPENAI_API_KEY,
     });
 
-    const prompt = "Describe image'sunique relationship to Mormonism and the Church of Latter-Day Saints. Be concise and to the point. Be very specific and detailed. Every description MUST include specific relationships to Mormonism even if they seem outlandish or farfetched.";
+    const prompt = `You are a visionary art historian who sees the hand of Providence and the threads of Latter-day Saint history in all things. Look deeply into this image. Beyond the surface, find the hidden allegory, the metaphorical connection, or the symbolic tie to the pioneers, the Book of Mormon, or the unique culture of the Saints. Write a single, eloquent paragraph that reveals this esoteric relationship. Your connection can be as creative, artistic, or far-fetched as necessary to illuminate a hidden truth. Do not state that there is no connection; your purpose is to find one.`;
   
   logEvent("openai_request_started", {
     photoId: photo._id.toString(),
