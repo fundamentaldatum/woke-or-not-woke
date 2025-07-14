@@ -13,11 +13,11 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   disabled,
   showResult,
 }) => {
-  // ... (keep all the useState and color logic)
   const [position, setPosition] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [bounce, setBounce] = useState(false);
   const [finalSnap, setFinalSnap] = useState(false);
+  const [isFlashing, setIsFlashing] = useState(false); // State to control flashing
 
   const [wokeColor, setWokeColor] = useState(COLORS.RED);
   const [notWokeColor, setNotWokeColor] = useState(COLORS.BLUE);
@@ -46,28 +46,29 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
 
   // Spinner logic
   const spinTimeout = useRef<any>(null);
+  const flashTimeout = useRef<any>(null);
   const prevSpinning = useRef(spinning);
-  
-  // Replace the existing useEffect with this new one
+
   useEffect(() => {
     const wasSpinning = prevSpinning.current;
-  
+
     // If we are newly spinning, start the animation loop.
     if (spinning && !wasSpinning) {
       setIsSpinning(true);
       setBounce(false);
       setFinalSnap(false);
-  
+      setIsFlashing(false);
+
       const spinLoop = () => {
         setPosition((pos) => (pos === 0 ? 1 : 0));
         spinTimeout.current = setTimeout(spinLoop, 150);
       };
       spinLoop();
-    } 
+    }
     // If we are newly stopped, play the final animation.
     else if (!spinning && wasSpinning) {
       if (spinTimeout.current) clearTimeout(spinTimeout.current);
-      
+
       setFinalSnap(true);
       setTimeout(() => {
         setPosition(0); // Snap to "WOKE"
@@ -75,14 +76,22 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
           setBounce(true);
           setIsSpinning(false);
           setFinalSnap(false);
+          
+          // Start flashing
+          setIsFlashing(true);
+          flashTimeout.current = setTimeout(() => {
+            setIsFlashing(false);
+          }, 1000); // Flash for 1 second
+
         }, 180);
       }, 120);
     }
-  
+
     prevSpinning.current = spinning;
-  
+
     return () => {
       if (spinTimeout.current) clearTimeout(spinTimeout.current);
+      if (flashTimeout.current) clearTimeout(flashTimeout.current);
     };
   }, [spinning]);
 
@@ -94,27 +103,12 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     await onFinalTrue();
   };
 
-  // ... (keep all the style and render logic the same)
   const borderColor =
     showResult && !isSpinning
       ? resultBorderColor
       : COLORS.BORDER_IDLE;
-
-  const spinnerWindowStyle: React.CSSProperties = {
-    height: "2.2rem",
-    width: "100%",
-    overflow: "hidden",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    position: "relative",
-    background: "transparent",
-    borderRadius: "0.7rem",
-    margin: 0,
-    transition: "box-shadow 0.2s",
-  };
-
+      
+  // Define the style for the button, including the flashing animation
   const buttonStyle: React.CSSProperties = {
     maxWidth: 320,
     minWidth: 180,
@@ -136,6 +130,24 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     userSelect: "none",
     margin: "0 auto",
     display: "block",
+    // CSS variable for the flash color
+    '--flash-color': wokeColor,
+    animation: isFlashing ? 'button-flash 0.25s 4' : 'none',
+  } as React.CSSProperties;
+
+  const spinnerWindowStyle: React.CSSProperties = {
+    height: "2.2rem",
+    width: "100%",
+    overflow: "hidden",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+    background: "transparent",
+    borderRadius: "0.7rem",
+    margin: 0,
+    transition: "box-shadow 0.2s",
   };
 
   const spinAnimStyle: React.CSSProperties = {
@@ -151,6 +163,19 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
       : {}),
   };
 
+  // Define the style for the final "WOKE" text, including the flashing animation
+  const wokeResultStyle: React.CSSProperties = {
+    color: wokeColor,
+    textShadow: "0 1px 8px #000a",
+    fontWeight: 800,
+    fontSize: "1.3rem",
+    letterSpacing: "0.01em",
+    transition: "color 0.2s",
+    '--flash-color': wokeColor,
+    animation: isFlashing ? 'text-flash 0.25s 4' : 'none',
+  } as React.CSSProperties;
+
+  // Inject keyframe animations into the document head
   useEffect(() => {
     const style = document.createElement("style");
     style.innerHTML = `
@@ -159,6 +184,17 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
         30% { transform: scaleY(1.18) }
         60% { transform: scaleY(0.92) }
         100% { transform: scaleY(1) }
+      }
+      @keyframes button-flash {
+        50% {
+          box-shadow: 0 0 25px 8px var(--flash-color);
+        }
+      }
+      @keyframes text-flash {
+        50% {
+          color: #fff;
+          text-shadow: 0 0 25px var(--flash-color);
+        }
       }
     `;
     document.head.appendChild(style);
@@ -218,14 +254,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
       {!spinning && showResult && (
         <span
           className="block w-full text-center"
-          style={{
-            color: wokeColor,
-            textShadow: "0 1px 8px #000a",
-            fontWeight: 800,
-            fontSize: "1.3rem",
-            letterSpacing: "0.01em",
-            transition: "color 0.2s",
-          }}
+          style={wokeResultStyle}
         >
           WOKE
         </span>
