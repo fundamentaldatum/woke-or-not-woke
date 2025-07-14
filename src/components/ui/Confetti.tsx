@@ -31,7 +31,7 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive }) => {
           y: -Math.random() * canvas.height,
           width: Math.random() * 8 + 4,
           height: Math.random() * 15 + 5,
-          velocity: { x: (Math.random() - 0.5) * 10, y: Math.random() * 5 + 2 },
+          velocity: { x: (Math.random() - 0.5) * 5, y: Math.random() * 2 + 1 }, // Reduced initial Y velocity
           rotation: Math.random() * 360,
           rotationSpeed: (Math.random() - 0.5) * 5,
           color: color,
@@ -50,7 +50,7 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive }) => {
 
           particle.y += particle.velocity.y;
           particle.x += particle.velocity.x;
-          particle.velocity.y += 0.1;
+          particle.velocity.y += 0.05; // Reduced gravity
           particle.rotation += particle.rotationSpeed;
 
           ctx.save();
