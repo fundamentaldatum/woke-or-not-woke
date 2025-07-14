@@ -86,10 +86,9 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
             setIsFlashing(false);
           }, 1000);
 
-          // Stop emitting new confetti after 2.5 seconds
           confettiTimeout.current = setTimeout(() => {
             setConfettiActive(false);
-          }, 2500); // Changed from 5000
+          }, 2500);
         }, 180);
       }, 120);
     }
@@ -101,7 +100,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
       if (flashTimeout.current) clearTimeout(flashTimeout.current);
       if (confettiTimeout.current) clearTimeout(confettiTimeout.current);
     };
-  }, [spinning, wokeColor]);
+  }, [spinning]); // The dependency on `wokeColor` has been removed here to fix the bug.
 
   const handleClick = async () => {
     if (spinning || disabled) return;
