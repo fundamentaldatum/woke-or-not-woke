@@ -20,11 +20,14 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   const [finalSnap, setFinalSnap] = useState(false);
   const [isFlashing, setIsFlashing] = useState(false);
   const [confettiActive, setConfettiActive] = useState(false);
+  const [renderConfetti, setRenderConfetti] = useState(false);
 
   const [wokeColor, setWokeColor] = useState(COLORS.RED);
   const [notWokeColor, setNotWokeColor] = useState(COLORS.BLUE);
 
-  const [resultBorderColor, setResultBorderColor] = useState<string>(COLORS.BORDER_IDLE);
+  const [resultBorderColor, setResultBorderColor] = useState<string>(
+    COLORS.BORDER_IDLE
+  );
 
   useEffect(() => {
     if (showResult) {
@@ -50,6 +53,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   const spinTimeout = useRef<any>(null);
   const flashTimeout = useRef<any>(null);
   const confettiTimeout = useRef<any>(null);
+  const unmountConfettiTimeout = useRef<any>(null);
   const prevSpinning = useRef(spinning);
 
   useEffect(() => {
@@ -61,14 +65,14 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
       setFinalSnap(false);
       setIsFlashing(false);
       setConfettiActive(false);
+      setRenderConfetti(false);
 
       const spinLoop = () => {
         setPosition((pos) => (pos === 0 ? 1 : 0));
         spinTimeout.current = setTimeout(spinLoop, 150);
       };
       spinLoop();
-    }
-    else if (!spinning && wasSpinning) {
+    } else if (!spinning && wasSpinning) {
       if (spinTimeout.current) clearTimeout(spinTimeout.current);
 
       setFinalSnap(true);
@@ -81,14 +85,22 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
 
           setIsFlashing(true);
           setConfettiActive(true);
-          
+          setRenderConfetti(true);
+
           flashTimeout.current = setTimeout(() => {
             setIsFlashing(false);
           }, 1000);
 
+          // Stop emitting new confetti after 2.5 seconds
           confettiTimeout.current = setTimeout(() => {
             setConfettiActive(false);
           }, 2500);
+          
+          // Unmount the confetti component after 3.5 seconds
+          unmountConfettiTimeout.current = setTimeout(() => {
+            setRenderConfetti(false);
+          }, 3500);
+
         }, 180);
       }, 120);
     }
@@ -99,8 +111,9 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
       if (spinTimeout.current) clearTimeout(spinTimeout.current);
       if (flashTimeout.current) clearTimeout(flashTimeout.current);
       if (confettiTimeout.current) clearTimeout(confettiTimeout.current);
+      if (unmountConfettiTimeout.current) clearTimeout(unmountConfettiTimeout.current);
     };
-  }, [spinning]); // The dependency on `wokeColor` has been removed here to fix the bug.
+  }, [spinning]);
 
   const handleClick = async () => {
     if (spinning || disabled) return;
@@ -109,10 +122,8 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   };
 
   const borderColor =
-    showResult && !isSpinning
-      ? resultBorderColor
-      : COLORS.BORDER_IDLE;
-  
+    showResult && !isSpinning ? resultBorderColor : COLORS.BORDER_IDLE;
+
   const buttonStyle: React.CSSProperties = {
     maxWidth: 320,
     minWidth: 180,
@@ -134,8 +145,8 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     userSelect: "none",
     margin: "0 auto",
     display: "block",
-    '--flash-color': wokeColor,
-    animation: isFlashing ? 'button-flash 0.25s 4' : 'none',
+    "--flash-color": wokeColor,
+    animation: isFlashing ? "button-flash 0.25s 4" : "none",
   } as React.CSSProperties;
 
   const spinnerWindowStyle: React.CSSProperties = {
@@ -155,7 +166,8 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
 
   const spinAnimStyle: React.CSSProperties = {
     transform: `translateY(-${position * 2.2}rem)`,
-    transition: isSpinning || finalSnap ? "transform 0.13s cubic-bezier(.4,2,.6,1)" : "none",
+    transition:
+      isSpinning || finalSnap ? "transform 0.13s cubic-bezier(.4,2,.6,1)" : "none",
     fontSize: "1.25rem",
     fontWeight: 700,
     textShadow: "0 1px 8px #000a",
@@ -173,8 +185,8 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     fontSize: "1.3rem",
     letterSpacing: "0.01em",
     transition: "color 0.2s",
-    '--flash-color': wokeColor,
-    animation: isFlashing ? 'text-flash 0.25s 4' : 'none',
+    "--flash-color": wokeColor,
+    animation: isFlashing ? "text-flash 0.25s 4" : "none",
   } as React.CSSProperties;
 
   useEffect(() => {
@@ -206,7 +218,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
 
   return (
     <>
-      <Confetti color={wokeColor} isActive={confettiActive} />
+      {renderConfetti && <Confetti color={wokeColor} isActive={confettiActive} />}
       <button
         type="button"
         style={buttonStyle}
@@ -255,10 +267,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
           </span>
         )}
         {!spinning && showResult && (
-          <span
-            className="block w-full text-center"
-            style={wokeResultStyle}
-          >
+          <span className="block w-full text-center" style={wokeResultStyle}>
             WOKE
           </span>
         )}
