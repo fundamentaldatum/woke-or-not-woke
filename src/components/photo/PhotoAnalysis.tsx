@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useSession, usePhotoUpload, usePhotoAnalysis } from '../../hooks';
 import { PhotoUpload } from './PhotoUpload';
 import { PhotoResult } from './PhotoResult';
@@ -24,6 +24,14 @@ const PhotoAnalysis: React.FC = () => {
     handleSubmit,
     handleReset
   } = usePhotoUpload(sessionId);
+
+  // This new useEffect hook listens for the analysis to finish
+  // and then sets the spinning state to false.
+  useEffect(() => {
+    if (state.photoStatus === "done" || state.photoStatus === "error") {
+      setSpinning(false);
+    }
+  }, [state.photoStatus]);
   
   // Memoize the callbacks for setting showWhy and showHow
   const handleSetShowWhy = useCallback((show: boolean) => {

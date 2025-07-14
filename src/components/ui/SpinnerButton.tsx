@@ -13,20 +13,17 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   disabled,
   showResult,
 }) => {
-  // Spinner animation state
+  // ... (keep all the useState and color logic)
   const [position, setPosition] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
   const [bounce, setBounce] = useState(false);
   const [finalSnap, setFinalSnap] = useState(false);
 
-  // Color assignment for this spin
   const [wokeColor, setWokeColor] = useState(COLORS.RED);
   const [notWokeColor, setNotWokeColor] = useState(COLORS.BLUE);
 
-  // Border color state
   const [resultBorderColor, setResultBorderColor] = useState<string>(COLORS.BORDER_IDLE);
 
-  // When result is shown, border matches the "WOKE" color
   useEffect(() => {
     if (showResult) {
       setResultBorderColor(wokeColor);
@@ -35,7 +32,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     }
   }, [showResult, wokeColor]);
 
-  // On each spin, randomly assign colors
   useEffect(() => {
     if (spinning) {
       if (Math.random() < 0.5) {
@@ -50,49 +46,46 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
 
   // Spinner logic
   const spinTimeout = useRef<any>(null);
+  const prevSpinning = useRef(spinning);
+  
+  // Replace the existing useEffect with this new one
   useEffect(() => {
-    if (spinning) {
+    const wasSpinning = prevSpinning.current;
+  
+    // If we are newly spinning, start the animation loop.
+    if (spinning && !wasSpinning) {
       setIsSpinning(true);
       setBounce(false);
       setFinalSnap(false);
-      const totalSpins = Math.floor(Math.random() * 20) + 24; // 24–43 cycles
-      let i = 0;
-      function easeOutQuad(t: number) {
-        return t * (2 - t);
-      }
-      function spinStep() {
-        if (i === totalSpins - 1) {
-          setPosition(1); // "NOT WOKE"
-        } else {
-          setPosition(i % 2);
-        }
-        i++;
-        const progress = Math.min(i / totalSpins, 1);
-        const minDelay = 40;
-        const maxDelay = 140;
-        const delay = minDelay + (maxDelay - minDelay) * easeOutQuad(progress);
-        if (i < totalSpins) {
-          spinTimeout.current = setTimeout(spinStep, delay);
-        } else {
-          setFinalSnap(true);
-          setTimeout(() => {
-            setPosition(0); // "WOKE"
-            setTimeout(() => {
-              setBounce(true);
-              setIsSpinning(false);
-              setFinalSnap(false);
-              setSpinning(false);
-            }, 180);
-          }, 120);
-        }
-      }
-      spinStep();
+  
+      const spinLoop = () => {
+        setPosition((pos) => (pos === 0 ? 1 : 0));
+        spinTimeout.current = setTimeout(spinLoop, 150);
+      };
+      spinLoop();
+    } 
+    // If we are newly stopped, play the final animation.
+    else if (!spinning && wasSpinning) {
+      if (spinTimeout.current) clearTimeout(spinTimeout.current);
+      
+      setFinalSnap(true);
+      setTimeout(() => {
+        setPosition(0); // Snap to "WOKE"
+        setTimeout(() => {
+          setBounce(true);
+          setIsSpinning(false);
+          setFinalSnap(false);
+        }, 180);
+      }, 120);
     }
+  
+    prevSpinning.current = spinning;
+  
     return () => {
       if (spinTimeout.current) clearTimeout(spinTimeout.current);
     };
-    // eslint-disable-next-line
-  }, [spinning, setSpinning]);
+  }, [spinning]);
+
 
   // Handle click
   const handleClick = async () => {
@@ -101,13 +94,12 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     await onFinalTrue();
   };
 
-  // Button border color logic
+  // ... (keep all the style and render logic the same)
   const borderColor =
     showResult && !isSpinning
       ? resultBorderColor
       : COLORS.BORDER_IDLE;
 
-  // Spinner window style (slot machine effect)
   const spinnerWindowStyle: React.CSSProperties = {
     height: "2.2rem",
     width: "100%",
@@ -123,7 +115,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     transition: "box-shadow 0.2s",
   };
 
-  // Button style
   const buttonStyle: React.CSSProperties = {
     maxWidth: 320,
     minWidth: 180,
@@ -147,7 +138,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     display: "block",
   };
 
-  // Spinner animation style
   const spinAnimStyle: React.CSSProperties = {
     transform: `translateY(-${position * 2.2}rem)`,
     transition: isSpinning || finalSnap ? "transform 0.13s cubic-bezier(.4,2,.6,1)" : "none",
@@ -161,7 +151,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
       : {}),
   };
 
-  // Keyframes for bounce
   useEffect(() => {
     const style = document.createElement("style");
     style.innerHTML = `
@@ -178,7 +167,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     };
   }, []);
 
-  // Render
   return (
     <button
       type="button"
@@ -188,11 +176,9 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
       tabIndex={0}
       aria-label="IS IT WOKE?"
     >
-      {/* Idle */}
       {!spinning && !showResult && (
         <span className="block w-full text-center">IS IT WOKE?</span>
       )}
-      {/* Spinner */}
       {spinning && (
         <span style={spinnerWindowStyle}>
           <span
@@ -229,7 +215,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
           </span>
         </span>
       )}
-      {/* Result */}
       {!spinning && showResult && (
         <span
           className="block w-full text-center"
