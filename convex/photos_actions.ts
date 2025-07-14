@@ -81,7 +81,7 @@ export const describePhoto = internalAction({
       apiKey: process.env.OPENAI_API_KEY,
     });
 
-    const prompt = "Describe this image and its unique relationship to Mormonism and the Church of Latter-Day Saints. Be concise and to the point. Be very specific and detailed. Every description MUST include specific relationships to Mormonism even if they seem outlandish or farfetched";
+    const prompt = "Describe image'sunique relationship to Mormonism and the Church of Latter-Day Saints. Be concise and to the point. Be very specific and detailed. Every description MUST include specific relationships to Mormonism even if they seem outlandish or farfetched.";
   
   logEvent("openai_request_started", {
     photoId: photo._id.toString(),
