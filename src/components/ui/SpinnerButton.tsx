@@ -91,15 +91,15 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
             setIsFlashing(false);
           }, 1000);
 
-          // Stop emitting new confetti after 3 seconds
+          // Stop emitting new confetti after 2.5 seconds
           confettiTimeout.current = setTimeout(() => {
             setConfettiActive(false);
-          }, 3000);
+          }, 2500);
           
-          // Unmount the confetti component after 5 seconds to allow all to fall
+          // Unmount the confetti component after 4 seconds
           unmountConfettiTimeout.current = setTimeout(() => {
             setRenderConfetti(false);
-          }, 5000);
+          }, 4000);
 
         }, 180);
       }, 120);
