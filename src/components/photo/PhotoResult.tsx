@@ -19,6 +19,10 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   const [typingComplete, setTypingComplete] = useState(false);
   const [resetTyping, setResetTyping] = useState(false);
   const [resetDescriptionTyping, setResetDescriptionTyping] = useState(false);
+  
+  // New state to manage the sequential typing effect
+  const [showMust, setShowMust] = useState(false);
+  const [showKnow, setShowKnow] = useState(false);
   const [showDescriptionTyping, setShowDescriptionTyping] = useState(false);
 
   // Reset typing state when showWhy changes
@@ -31,7 +35,9 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   useEffect(() => {
     if (showHow) {
       setResetDescriptionTyping(prev => !prev);
-      setShowDescriptionTyping(false); // Make sure description doesn't re-appear on its own
+      setShowMust(false);
+      setShowKnow(false);
+      setShowDescriptionTyping(false); 
     }
   }, [showHow]);
 
@@ -109,12 +115,30 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
       <div className="flex flex-col items-center">
         <div className="text-white text-center py-4 font-semibold">
           <TypewriterText
-            text="If you MUST know... "
+            text="If you "
             className="inline"
             typingSpeed={50}
-            onComplete={() => setShowDescriptionTyping(true)}
+            onComplete={() => setShowMust(true)}
             reset={resetDescriptionTyping}
           />
+          {showMust && (
+            <TypewriterText
+              text="MUST"
+              className="inline italic"
+              typingSpeed={50}
+              onComplete={() => setShowKnow(true)}
+              reset={resetDescriptionTyping}
+            />
+          )}
+          {showKnow && (
+            <TypewriterText
+              text=" know... "
+              className="inline"
+              typingSpeed={50}
+              onComplete={() => setShowDescriptionTyping(true)}
+              reset={resetDescriptionTyping}
+            />
+          )}
           {showDescriptionTyping && description && (
             <TypewriterText
               text={description}
