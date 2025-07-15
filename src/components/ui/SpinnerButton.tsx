@@ -118,10 +118,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   const borderColor =
     showResult && !isSpinning ? resultBorderColor : COLORS.BORDER_IDLE;
 
-  // Determine which animation should be active
-  const idleAnimation = !spinning && !showResult ? 'heartbeat 2.5s infinite ease-in-out' : 'none';
-  const flashAnimation = isFlashing ? 'button-flash 0.25s 4' : idleAnimation;
-
   const buttonStyle: React.CSSProperties = {
     maxWidth: 320,
     minWidth: 180,
@@ -144,7 +140,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     margin: "0 auto",
     display: "block",
     "--flash-color": wokeColor,
-    animation: flashAnimation,
+    animation: isFlashing ? 'button-flash 0.25s 4' : 'none',
   } as React.CSSProperties;
 
   const spinnerWindowStyle: React.CSSProperties = {
@@ -189,15 +185,8 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
 
   useEffect(() => {
     const style = document.createElement("style");
+    // We are removing the heartbeat keyframe from here
     style.innerHTML = `
-      @keyframes heartbeat {
-        0% { transform: scale(1); }
-        10% { transform: scale(1.03); }
-        20% { transform: scale(1); }
-        30% { transform: scale(1.03); }
-        40% { transform: scale(1); }
-        100% { transform: scale(1); }
-      }
       @keyframes woke-bounce {
         0% { transform: scaleY(1) }
         30% { transform: scaleY(1.18) }
