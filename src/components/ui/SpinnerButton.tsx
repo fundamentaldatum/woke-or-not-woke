@@ -3,10 +3,6 @@ import { SpinnerButtonProps } from "../../types";
 import { COLORS } from "../../constants";
 import Confetti from "./Confetti";
 
-/**
- * Animated button component that spins between "WOKE" and "NOT WOKE"
- * Used for initiating photo analysis with a playful interaction
- */
 const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   spinning,
   setSpinning,
@@ -14,6 +10,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   disabled,
   showResult,
   onAnimationComplete,
+  wokeColor,
 }) => {
   const [position, setPosition] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -22,15 +19,14 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   const [isFlashing, setIsFlashing] = useState(false);
   const [renderConfetti, setRenderConfetti] = useState(false);
 
-  const [wokeColor, setWokeColor] = useState(COLORS.RED);
-  const [notWokeColor, setNotWokeColor] = useState(COLORS.BLUE);
-
   const [resultBorderColor, setResultBorderColor] = useState<string>(
     COLORS.BORDER_IDLE
   );
 
   const onAnimationCompleteRef = useRef(onAnimationComplete);
   onAnimationCompleteRef.current = onAnimationComplete;
+
+  const notWokeColor = wokeColor === COLORS.RED ? COLORS.BLUE : COLORS.RED;
 
   useEffect(() => {
     if (showResult) {
@@ -40,19 +36,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     }
   }, [showResult, wokeColor]);
 
-  useEffect(() => {
-    if (spinning) {
-      if (Math.random() < 0.5) {
-        setWokeColor(COLORS.RED);
-        setNotWokeColor(COLORS.BLUE);
-      } else {
-        setWokeColor(COLORS.BLUE);
-        setNotWokeColor(COLORS.RED);
-      }
-    }
-  }, [spinning]);
-
-  // Spinner logic
   const spinTimeout = useRef<any>(null);
   const flashTimeout = useRef<any>(null);
   const animationCompleteTimeout = useRef<any>(null);
@@ -83,18 +66,14 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
           setBounce(true);
           setIsSpinning(false);
           setFinalSnap(false);
-
           setIsFlashing(true);
           setRenderConfetti(true);
-
           flashTimeout.current = setTimeout(() => {
             setIsFlashing(false);
           }, 1000);
-          
           animationCompleteTimeout.current = setTimeout(() => {
             onAnimationCompleteRef.current();
           }, 1200);
-
         }, 180);
       }, 120);
     }

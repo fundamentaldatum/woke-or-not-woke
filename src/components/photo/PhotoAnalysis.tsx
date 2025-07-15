@@ -5,6 +5,7 @@ import { PhotoResult } from './PhotoResult';
 import { SpinnerButton } from '../ui';
 import TestButton from '../ui/TestButton';
 import { createBlankWhiteImage } from '../../lib/utils';
+import { COLORS } from '../../constants';
 
 /**
  * Main component for photo analysis functionality
@@ -14,6 +15,7 @@ const PhotoAnalysis: React.FC = () => {
   const { sessionId } = useSession();
   const [spinning, setSpinning] = useState(false);
   const [isResultVisible, setIsResultVisible] = useState(false);
+  const [wokeColor, setWokeColor] = useState(COLORS.RED);
   
   // Photo upload state and handlers
   const {
@@ -31,6 +33,13 @@ const PhotoAnalysis: React.FC = () => {
     setIsResultVisible(false);
     await handleSubmit();
   };
+
+  useEffect(() => {
+    if (spinning) {
+      // Set the random color for this session when spinning starts
+      setWokeColor(Math.random() < 0.5 ? COLORS.RED : COLORS.BLUE);
+    }
+  }, [spinning]);
 
   useEffect(() => {
     if (state.photoStatus === "done" || state.photoStatus === "error") {
@@ -80,6 +89,7 @@ const PhotoAnalysis: React.FC = () => {
         handleDrop={handleDrop}
         handleFileChange={handleFileChange}
         fileInputRef={fileInputRef}
+        wokeColor={wokeColor}
       />
 
       <div className="w-full mb-6">
@@ -90,6 +100,7 @@ const PhotoAnalysis: React.FC = () => {
           disabled={!state.selectedFile || state.photoStatus === "pending"}
           showResult={state.photoStatus === "done"}
           onAnimationComplete={() => setIsResultVisible(true)}
+          wokeColor={wokeColor}
         />
       </div>
 

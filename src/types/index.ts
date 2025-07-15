@@ -22,7 +22,8 @@ export interface SpinnerButtonProps {
   onFinalTrue: () => Promise<void>;
   disabled?: boolean;
   showResult: boolean;
-  onAnimationComplete: () => void; // Add this line
+  onAnimationComplete: () => void;
+  wokeColor: string; // Add this line
 }
 
 export interface PixelateOverlayProps {
@@ -38,6 +39,7 @@ export interface PhotoUploadProps {
   handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
+  wokeColor: string; // Add this line
 }
 
 export interface PhotoResultProps {
@@ -48,7 +50,7 @@ export interface PhotoResultProps {
   description: string | undefined;
   setShowWhy: (show: boolean) => void;
   setShowHow: (show: boolean) => void;
-  isResultVisible: boolean; // Add this line
+  isResultVisible: boolean;
 }
 
 export interface TypewriterTextProps {

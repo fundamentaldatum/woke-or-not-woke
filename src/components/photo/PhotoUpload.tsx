@@ -11,7 +11,16 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
   handleDrop,
   handleFileChange,
   fileInputRef,
+  wokeColor,
 }) => {
+  const defaultBorderColor = '#6b7280'; // Corresponds to gray-500
+  const finalBorderColor = photoStatus === 'done' ? wokeColor : defaultBorderColor;
+
+  const labelStyle: React.CSSProperties = {
+    borderColor: finalBorderColor,
+    transition: 'border-color 0.5s ease-in-out',
+  };
+
   return (
     <div
       className="w-full flex flex-col items-center mb-6"
@@ -20,7 +29,8 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
     >
       <label
         htmlFor="photo-upload"
-        className={`block w-full cursor-pointer border-2 border-dashed border-gray-400 rounded-lg p-4 text-center bg-[#222b3a] hover:bg-[#26304a] transition mb-2`}
+        className={`block w-full cursor-pointer border-2 border-dashed rounded-lg p-4 text-center bg-[#222b3a] hover:bg-[#26304a] mb-2`}
+        style={labelStyle}
       >
         {previewUrl ? (
           <div className="relative w-full flex flex-col items-center">
