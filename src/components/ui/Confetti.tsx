@@ -19,20 +19,23 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
     canvas.height = window.innerHeight;
 
     const particles: any[] = [];
-    const numberOfConfetti = 250; // A higher number for a fuller effect
+    const numberOfConfetti = 250;
 
     for (let i = 0; i < numberOfConfetti; i++) {
-        particles.push({
-          x: Math.random() * canvas.width,
-          y: -Math.random() * canvas.height,
-          width: Math.random() * 10 + 5,
-          height: Math.random() * 20 + 8,
-          velocity: { x: (Math.random() - 0.5) * 7, y: Math.random() * 3 + 2 },
-          rotation: Math.random() * 360,
-          rotationSpeed: (Math.random() - 0.5) * 5,
-          color: color,
-        });
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: -Math.random() * canvas.height,
+        width: Math.random() * 10 + 5,
+        height: Math.random() * 20 + 8,
+        velocity: { x: (Math.random() - 0.5) * 7, y: Math.random() * 3 + 2 },
+        rotation: Math.random() * 360,
+        rotationSpeed: (Math.random() - 0.5) * 5,
+        color: color,
+      });
     }
+
+    // Stop generating new particles after 2.5 seconds
+    const stopTime = Date.now() + 2500;
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -44,7 +47,7 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
 
           particle.y += particle.velocity.y;
           particle.x += particle.velocity.x;
-          particle.velocity.y += 0.05; // Gravity
+          particle.velocity.y += 0.05;
           particle.rotation += particle.rotationSpeed;
 
           ctx.save();
@@ -53,17 +56,23 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
           ctx.fillStyle = particle.color;
           ctx.fillRect(-particle.width / 2, -particle.height / 2, particle.width, particle.height);
           ctx.restore();
+        } else if (Date.now() < stopTime) {
+          // Recycle particles only before the stop time
+          activeParticles++;
+          particle.y = -20;
+          particle.x = Math.random() * canvas.width;
         }
       });
 
       if (activeParticles > 0) {
         animationFrameId.current = requestAnimationFrame(animate);
       } else {
+        // Animation is complete, call the callback
         onComplete();
       }
     };
 
-    animationFrameId.current = requestAnimationFrame(animate);
+    animate();
 
     return () => {
       if (animationFrameId.current) {
