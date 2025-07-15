@@ -13,6 +13,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   onFinalTrue,
   disabled,
   showResult,
+  onAnimationComplete,
 }) => {
   const [position, setPosition] = useState(0);
   const [isSpinning, setIsSpinning] = useState(false);
@@ -52,6 +53,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   const spinTimeout = useRef<any>(null);
   const flashTimeout = useRef<any>(null);
   const prevSpinning = useRef(spinning);
+  const animationCompleteTimeout = useRef<any>(null);
 
   useEffect(() => {
     const wasSpinning = prevSpinning.current;
@@ -85,6 +87,11 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
           flashTimeout.current = setTimeout(() => {
             setIsFlashing(false);
           }, 1000);
+          
+          // Trigger the fade-in after the flash and confetti have started
+          animationCompleteTimeout.current = setTimeout(() => {
+            onAnimationComplete();
+          }, 1200);
 
         }, 180);
       }, 120);
@@ -95,8 +102,9 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     return () => {
       if (spinTimeout.current) clearTimeout(spinTimeout.current);
       if (flashTimeout.current) clearTimeout(flashTimeout.current);
+      if (animationCompleteTimeout.current) clearTimeout(animationCompleteTimeout.current);
     };
-  }, [spinning]);
+  }, [spinning, onAnimationComplete]);
 
   const handleConfettiComplete = () => {
     setRenderConfetti(false);

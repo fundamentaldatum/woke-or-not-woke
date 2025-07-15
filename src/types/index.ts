@@ -22,6 +22,7 @@ export interface SpinnerButtonProps {
   onFinalTrue: () => Promise<void>;
   disabled?: boolean;
   showResult: boolean;
+  onAnimationComplete: () => void; // Add this line
 }
 
 export interface PixelateOverlayProps {
@@ -47,6 +48,7 @@ export interface PhotoResultProps {
   description: string | undefined;
   setShowWhy: (show: boolean) => void;
   setShowHow: (show: boolean) => void;
+  isResultVisible: boolean; // Add this line
 }
 
 export interface TypewriterTextProps {

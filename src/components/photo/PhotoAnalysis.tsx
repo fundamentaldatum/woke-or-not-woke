@@ -13,6 +13,7 @@ import { createBlankWhiteImage } from '../../lib/utils';
 const PhotoAnalysis: React.FC = () => {
   const { sessionId } = useSession();
   const [spinning, setSpinning] = useState(false);
+  const [isResultVisible, setIsResultVisible] = useState(false);
   
   // Photo upload state and handlers
   const {
@@ -25,15 +26,18 @@ const PhotoAnalysis: React.FC = () => {
     handleReset
   } = usePhotoUpload(sessionId);
 
-  // This new useEffect hook listens for the analysis to finish
-  // and then sets the spinning state to false.
+  // When a new image is submitted, hide the result button
+  const handleCustomSubmit = async () => {
+    setIsResultVisible(false);
+    await handleSubmit();
+  };
+
   useEffect(() => {
     if (state.photoStatus === "done" || state.photoStatus === "error") {
       setSpinning(false);
     }
   }, [state.photoStatus]);
   
-  // Memoize the callbacks for setting showWhy and showHow
   const handleSetShowWhy = useCallback((show: boolean) => {
     updateState({ showWhy: show });
   }, [updateState]);
@@ -41,25 +45,17 @@ const PhotoAnalysis: React.FC = () => {
   const handleSetShowHow = useCallback((show: boolean) => {
     updateState({ showHow: show });
   }, [updateState]);
-  
-  // Memoize the submit callback
-  const handleSpinnerSubmit = useCallback(async () => {
-    await handleSubmit();
-  }, [handleSubmit]);
-  
-  // Photo analysis state
+
   const { photo } = usePhotoAnalysis(
     state.latestPhotoId,
     sessionId,
     updateState
   );
   
-  // Handle test button click - creates and sets a blank white image
   const handleTestButtonClick = useCallback(async () => {
     try {
       const blankImage = await createBlankWhiteImage();
       
-      // Set the blank image as the selected file
       updateState({
         selectedFile: blankImage,
         previewUrl: URL.createObjectURL(blankImage),
@@ -69,6 +65,7 @@ const PhotoAnalysis: React.FC = () => {
         showHow: false,
         latestPhotoId: null
       });
+      setIsResultVisible(false);
     } catch (err: any) {
       console.error("Error creating test image:", err);
       updateState({ error: "Failed to create test image" });
@@ -77,7 +74,6 @@ const PhotoAnalysis: React.FC = () => {
 
   return (
     <div className="flex flex-col items-center w-full max-w-md mx-auto px-2">
-      {/* Image upload area */}
       <PhotoUpload
         previewUrl={state.previewUrl}
         photoStatus={state.photoStatus}
@@ -86,18 +82,17 @@ const PhotoAnalysis: React.FC = () => {
         fileInputRef={fileInputRef}
       />
 
-      {/* Spinner/Submit button */}
       <div className="w-full mb-6">
         <SpinnerButton
           spinning={spinning}
           setSpinning={setSpinning}
-          onFinalTrue={handleSpinnerSubmit}
+          onFinalTrue={handleCustomSubmit}
           disabled={!state.selectedFile || state.photoStatus === "pending"}
           showResult={state.photoStatus === "done"}
+          onAnimationComplete={() => setIsResultVisible(true)}
         />
       </div>
 
-      {/* Output/result field */}
       <div className="w-full min-h-[56px] flex flex-col items-center justify-center">
         <PhotoResult
           photoStatus={state.photoStatus}
@@ -107,20 +102,22 @@ const PhotoAnalysis: React.FC = () => {
           description={photo?.description}
           setShowWhy={handleSetShowWhy}
           setShowHow={handleSetShowHow}
+          isResultVisible={isResultVisible}
         />
       </div>
 
-      {/* Reset button */}
       {state.photoStatus === "done" || state.photoStatus === "error" ? (
         <button
           className="mt-4 bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition"
-          onClick={handleReset}
+          onClick={() => {
+            handleReset();
+            setIsResultVisible(false);
+          }}
         >
           Reset
         </button>
       ) : null}
       
-      {/* Test Button for debugging */}
       <TestButton onClick={handleTestButtonClick} />
     </div>
   );

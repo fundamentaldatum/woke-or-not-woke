@@ -14,37 +14,28 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   description,
   setShowWhy,
   setShowHow,
+  isResultVisible,
 }) => {
   // State for managing animations
   const [typingComplete, setTypingComplete] = useState(false);
   const [resetTyping, setResetTyping] = useState(false);
   const [resetDescriptionTyping, setResetDescriptionTyping] = useState(false);
-  const [showDescriptionTyping, setShowDescriptionTyping] = useState(false);
-
-  // State for sequential typing of the "MY job" sentence
-  const [showMy, setShowMy] = useState(false);
-  const [showJob, setShowJob] = useState(false);
-
-  // State for sequential typing of the "If you MUST know" sentence
+  
   const [showMust, setShowMust] = useState(false);
   const [showKnow, setShowKnow] = useState(false);
+  const [showDescriptionTyping, setShowDescriptionTyping] = useState(false);
 
-
-  // Reset typing state when "WHY IS IT WOKE?" is clicked
   useEffect(() => {
     setTypingComplete(false);
     setResetTyping(prev => !prev);
-    setShowMy(false);
-    setShowJob(false);
   }, [showWhy]);
 
-  // Reset typing state when "HOW DO I 'DO THE WORK?'" is clicked
   useEffect(() => {
     if (showHow) {
       setResetDescriptionTyping(prev => !prev);
       setShowMust(false);
       setShowKnow(false);
-      setShowDescriptionTyping(false);
+      setShowDescriptionTyping(false); 
     }
   }, [showHow]);
 
@@ -67,7 +58,9 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   if (photoStatus === "done" && !showWhy) {
     return (
       <button
-        className="bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition"
+        className={`bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition ${
+          isResultVisible ? 'animate-fade-in' : 'opacity-0'
+        }`}
         onClick={() => setShowWhy(true)}
       >
         WHY IS IT WOKE?
@@ -85,30 +78,26 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                 text="It's actually not "
                 className="inline"
                 typingSpeed={60}
-                onComplete={() => setShowMy(true)}
+                onComplete={() => {}}
                 reset={resetTyping}
                 showCursor={false}
               />
-              {showMy && (
-                <TypewriterText
-                  text="MY"
-                  className="inline font-black text-glow"
-                  typingSpeed={60}
-                  onComplete={() => setShowJob(true)}
-                  reset={resetTyping}
-                  showCursor={false}
-                />
-              )}
-              {showJob && (
-                <TypewriterText
-                  text={` job to "do the work" for you`}
-                  className="inline"
-                  typingSpeed={60}
-                  onComplete={() => setTypingComplete(true)}
-                  reset={resetTyping}
-                  showCursor={true}
-                />
-              )}
+              <TypewriterText
+                text="MY"
+                className="inline font-black text-glow"
+                typingSpeed={60}
+                onComplete={() => {}}
+                reset={resetTyping}
+                showCursor={false}
+              />
+              <TypewriterText
+                text=" job to 'do the work' for you"
+                className="inline"
+                typingSpeed={60}
+                onComplete={() => setTypingComplete(true)}
+                reset={resetTyping}
+                showCursor={true}
+              />
             </>
           )}
         </div>
