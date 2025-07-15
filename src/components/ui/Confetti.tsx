@@ -3,9 +3,10 @@ import React, { useEffect, useRef } from 'react';
 interface ConfettiProps {
   color: string;
   isActive: boolean;
+  onComplete: () => void;
 }
 
-const Confetti: React.FC<ConfettiProps> = ({ color, isActive }) => {
+const Confetti: React.FC<ConfettiProps> = ({ color, isActive, onComplete }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const particlesRef = useRef<any[]>([]);
   const animationFrameId = useRef<number | null>(null);
@@ -22,8 +23,9 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive }) => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    if (isActive && particlesRef.current.length === 0) {
+    const createParticles = () => {
       const numberOfConfetti = 200;
+      particlesRef.current = [];
       for (let i = 0; i < numberOfConfetti; i++) {
         particlesRef.current.push({
           x: Math.random() * canvas.width,
@@ -36,7 +38,7 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive }) => {
           color: color,
         });
       }
-    }
+    };
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -70,12 +72,13 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive }) => {
         if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
         animationFrameId.current = null;
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        particlesRef.current = [];
+        onComplete(); // Signal that the animation is complete
       }
     };
 
-    if (isActive && !animationFrameId.current) {
-        animate();
+    createParticles();
+    if (!animationFrameId.current) {
+      animate();
     }
 
     return () => {
@@ -83,7 +86,7 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive }) => {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-  }, [isActive, color]);
+  }, [color, onComplete]);
 
   return (
     <canvas

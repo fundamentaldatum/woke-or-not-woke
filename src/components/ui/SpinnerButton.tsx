@@ -53,7 +53,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   const spinTimeout = useRef<any>(null);
   const flashTimeout = useRef<any>(null);
   const confettiTimeout = useRef<any>(null);
-  const unmountConfettiTimeout = useRef<any>(null);
   const prevSpinning = useRef(spinning);
 
   useEffect(() => {
@@ -95,11 +94,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
           confettiTimeout.current = setTimeout(() => {
             setConfettiActive(false);
           }, 2500);
-          
-          // Unmount the confetti component after 4 seconds to allow all particles to fall
-          unmountConfettiTimeout.current = setTimeout(() => {
-            setRenderConfetti(false);
-          }, 4000);
 
         }, 180);
       }, 120);
@@ -111,9 +105,12 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
       if (spinTimeout.current) clearTimeout(spinTimeout.current);
       if (flashTimeout.current) clearTimeout(flashTimeout.current);
       if (confettiTimeout.current) clearTimeout(confettiTimeout.current);
-      if (unmountConfettiTimeout.current) clearTimeout(unmountConfettiTimeout.current);
     };
   }, [spinning]);
+
+  const handleConfettiComplete = () => {
+    setRenderConfetti(false);
+  };
 
   const handleClick = async () => {
     if (spinning || disabled) return;
@@ -218,7 +215,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
 
   return (
     <>
-      {renderConfetti && <Confetti color={wokeColor} isActive={confettiActive} />}
+      {renderConfetti && <Confetti color={wokeColor} isActive={confettiActive} onComplete={handleConfettiComplete} />}
       <button
         type="button"
         style={buttonStyle}
