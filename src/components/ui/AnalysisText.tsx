@@ -35,10 +35,10 @@ const AnalysisText: React.FC = () => {
   }, []);
 
   return (
-    <div className="font-mono text-center text-lg text-green-400" style={{ textShadow: '0 0 5px #22c55e, 0 0 10px #22c55e' }}>
+    <div className="font-mono text-center text-lg text-yellow-400" style={{ textShadow: '0 0 5px #facc15, 0 0 10px #facc15' }}>
       <p>{analysisSteps[currentStepIndex]}</p>
       <div className="w-full bg-gray-700 rounded-full h-2.5 mt-2">
-        <div className="bg-green-400 h-2.5 rounded-full" style={{ width: `${percentage}%`, transition: 'width 0.1s linear' }}></div>
+        <div className="bg-yellow-400 h-2.5 rounded-full" style={{ width: `${percentage}%`, transition: 'width 0.1s linear' }}></div>
       </div>
       <p className="mt-1">{percentage}% COMPLETE</p>
     </div>
