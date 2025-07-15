@@ -52,8 +52,8 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   // Spinner logic
   const spinTimeout = useRef<any>(null);
   const flashTimeout = useRef<any>(null);
-  const prevSpinning = useRef(spinning);
   const animationCompleteTimeout = useRef<any>(null);
+  const prevSpinning = useRef(spinning);
 
   useEffect(() => {
     const wasSpinning = prevSpinning.current;
@@ -88,7 +88,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
             setIsFlashing(false);
           }, 1000);
           
-          // Trigger the fade-in after the flash and confetti have started
           animationCompleteTimeout.current = setTimeout(() => {
             onAnimationComplete();
           }, 1200);
@@ -119,6 +118,10 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   const borderColor =
     showResult && !isSpinning ? resultBorderColor : COLORS.BORDER_IDLE;
 
+  // Determine which animation should be active
+  const idleAnimation = !spinning && !showResult ? 'heartbeat 2.5s infinite ease-in-out' : 'none';
+  const flashAnimation = isFlashing ? 'button-flash 0.25s 4' : idleAnimation;
+
   const buttonStyle: React.CSSProperties = {
     maxWidth: 320,
     minWidth: 180,
@@ -136,12 +139,12 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     cursor: disabled || spinning || showResult ? "default" : "pointer",
     outline: "none",
     position: "relative",
-    transition: "border-color 0.25s cubic-bezier(.4,2,.6,1), background 0.2s",
+    transition: "border-color 0.25s cubic-bezier(.4,2,.6,1), background 0.2s, transform 0.2s ease-in-out",
     userSelect: "none",
     margin: "0 auto",
     display: "block",
     "--flash-color": wokeColor,
-    animation: isFlashing ? "button-flash 0.25s 4" : "none",
+    animation: flashAnimation,
   } as React.CSSProperties;
 
   const spinnerWindowStyle: React.CSSProperties = {
@@ -187,6 +190,14 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   useEffect(() => {
     const style = document.createElement("style");
     style.innerHTML = `
+      @keyframes heartbeat {
+        0% { transform: scale(1); }
+        10% { transform: scale(1.03); }
+        20% { transform: scale(1); }
+        30% { transform: scale(1.03); }
+        40% { transform: scale(1); }
+        100% { transform: scale(1); }
+      }
       @keyframes woke-bounce {
         0% { transform: scaleY(1) }
         30% { transform: scaleY(1.18) }
