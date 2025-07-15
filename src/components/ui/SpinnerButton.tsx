@@ -29,6 +29,9 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     COLORS.BORDER_IDLE
   );
 
+  const onAnimationCompleteRef = useRef(onAnimationComplete);
+  onAnimationCompleteRef.current = onAnimationComplete;
+
   useEffect(() => {
     if (showResult) {
       setResultBorderColor(wokeColor);
@@ -89,7 +92,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
           }, 1000);
           
           animationCompleteTimeout.current = setTimeout(() => {
-            onAnimationComplete();
+            onAnimationCompleteRef.current();
           }, 1200);
 
         }, 180);
@@ -103,7 +106,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
       if (flashTimeout.current) clearTimeout(flashTimeout.current);
       if (animationCompleteTimeout.current) clearTimeout(animationCompleteTimeout.current);
     };
-  }, [spinning, onAnimationComplete]);
+  }, [spinning]);
 
   const handleConfettiComplete = () => {
     setRenderConfetti(false);
@@ -185,7 +188,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
 
   useEffect(() => {
     const style = document.createElement("style");
-    // We are removing the heartbeat keyframe from here
     style.innerHTML = `
       @keyframes woke-bounce {
         0% { transform: scaleY(1) }

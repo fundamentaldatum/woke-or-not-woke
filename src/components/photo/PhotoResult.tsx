@@ -61,7 +61,6 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
         className={`bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition ${
           isResultVisible ? 'animate-fade-in animate-heartbeat' : 'opacity-0'
         }`}
-        style={{ animationDelay: '0s, 0.5s' }} // Delay the heartbeat until after the fade-in
         onClick={() => setShowWhy(true)}
       >
         WHY IS IT WOKE?
