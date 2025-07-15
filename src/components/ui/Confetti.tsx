@@ -9,10 +9,12 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameId = useRef<number | null>(null);
 
-  // Use a ref to track the color prop inside the animation loop
-  // This prevents the effect from re-running when the color changes.
+  // Use refs to track props inside the animation loop.
+  // This prevents the effect from re-running and causing the animation "hiccup".
   const colorRef = useRef(color);
   colorRef.current = color;
+  const onCompleteRef = useRef(onComplete);
+  onCompleteRef.current = onComplete;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -38,7 +40,6 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
         });
     }
 
-    // Stop generating new particles after 2.5 seconds
     const stopTime = Date.now() + 2500;
 
     const animate = () => {
@@ -57,12 +58,10 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
           ctx.save();
           ctx.translate(particle.x, particle.y);
           ctx.rotate((particle.rotation * Math.PI) / 180);
-          // Use the color from the ref
           ctx.fillStyle = colorRef.current;
           ctx.fillRect(-particle.width / 2, -particle.height / 2, particle.width, particle.height);
           ctx.restore();
         } else if (Date.now() < stopTime) {
-          // Recycle particles only before the stop time
           activeParticles++;
           particle.y = -20;
           particle.x = Math.random() * canvas.width;
@@ -72,8 +71,7 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
       if (activeParticles > 0) {
         animationFrameId.current = requestAnimationFrame(animate);
       } else {
-        // Animation is complete, call the callback
-        onComplete();
+        onCompleteRef.current();
       }
     };
 
@@ -84,8 +82,8 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-    // The empty dependency array ensures this effect runs only once on mount.
-  }, [onComplete]);
+    // The empty dependency array is key: it ensures this effect runs only ONCE.
+  }, []);
 
   return (
     <canvas
