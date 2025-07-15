@@ -19,7 +19,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   const [bounce, setBounce] = useState(false);
   const [finalSnap, setFinalSnap] = useState(false);
   const [isFlashing, setIsFlashing] = useState(false);
-  const [confettiActive, setConfettiActive] = useState(false);
   const [renderConfetti, setRenderConfetti] = useState(false);
 
   const [wokeColor, setWokeColor] = useState(COLORS.RED);
@@ -52,7 +51,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
   // Spinner logic
   const spinTimeout = useRef<any>(null);
   const flashTimeout = useRef<any>(null);
-  const confettiTimeout = useRef<any>(null);
   const prevSpinning = useRef(spinning);
 
   useEffect(() => {
@@ -63,7 +61,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
       setBounce(false);
       setFinalSnap(false);
       setIsFlashing(false);
-      setConfettiActive(false);
       setRenderConfetti(false);
 
       const spinLoop = () => {
@@ -84,16 +81,10 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
 
           setIsFlashing(true);
           setRenderConfetti(true);
-          setConfettiActive(true);
 
           flashTimeout.current = setTimeout(() => {
             setIsFlashing(false);
           }, 1000);
-
-          // Stop emitting new confetti after 2.5 seconds
-          confettiTimeout.current = setTimeout(() => {
-            setConfettiActive(false);
-          }, 2500);
 
         }, 180);
       }, 120);
@@ -104,7 +95,6 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
     return () => {
       if (spinTimeout.current) clearTimeout(spinTimeout.current);
       if (flashTimeout.current) clearTimeout(flashTimeout.current);
-      if (confettiTimeout.current) clearTimeout(confettiTimeout.current);
     };
   }, [spinning]);
 
@@ -215,7 +205,7 @@ const SpinnerButton: React.FC<SpinnerButtonProps> = ({
 
   return (
     <>
-      {renderConfetti && <Confetti color={wokeColor} isActive={confettiActive} onComplete={handleConfettiComplete} />}
+      {renderConfetti && <Confetti color={wokeColor} onComplete={handleConfettiComplete} />}
       <button
         type="button"
         style={buttonStyle}

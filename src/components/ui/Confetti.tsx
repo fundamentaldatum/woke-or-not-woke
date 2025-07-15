@@ -2,17 +2,12 @@ import React, { useEffect, useRef } from 'react';
 
 interface ConfettiProps {
   color: string;
-  isActive: boolean;
   onComplete: () => void;
 }
 
-const Confetti: React.FC<ConfettiProps> = ({ color, isActive, onComplete }) => {
+const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const particlesRef = useRef<any[]>([]);
   const animationFrameId = useRef<number | null>(null);
-
-  const isActiveRef = useRef(isActive);
-  isActiveRef.current = isActive;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -23,11 +18,11 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive, onComplete }) => {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const createParticles = () => {
-      const numberOfConfetti = 200;
-      particlesRef.current = [];
-      for (let i = 0; i < numberOfConfetti; i++) {
-        particlesRef.current.push({
+    const particles: any[] = [];
+    const numberOfConfetti = 250; // A higher number for a fuller effect
+
+    for (let i = 0; i < numberOfConfetti; i++) {
+        particles.push({
           x: Math.random() * canvas.width,
           y: -Math.random() * canvas.height,
           width: Math.random() * 10 + 5,
@@ -37,20 +32,19 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive, onComplete }) => {
           rotationSpeed: (Math.random() - 0.5) * 5,
           color: color,
         });
-      }
-    };
+    }
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       let activeParticles = 0;
 
-      particlesRef.current.forEach((particle) => {
+      particles.forEach((particle) => {
         if (particle.y < canvas.height + 20) {
           activeParticles++;
 
           particle.y += particle.velocity.y;
           particle.x += particle.velocity.x;
-          particle.velocity.y += 0.05;
+          particle.velocity.y += 0.05; // Gravity
           particle.rotation += particle.rotationSpeed;
 
           ctx.save();
@@ -59,27 +53,17 @@ const Confetti: React.FC<ConfettiProps> = ({ color, isActive, onComplete }) => {
           ctx.fillStyle = particle.color;
           ctx.fillRect(-particle.width / 2, -particle.height / 2, particle.width, particle.height);
           ctx.restore();
-        } else if (isActiveRef.current) {
-          activeParticles++;
-          particle.y = -20;
-          particle.x = Math.random() * canvas.width;
         }
       });
 
       if (activeParticles > 0) {
         animationFrameId.current = requestAnimationFrame(animate);
       } else {
-        if (animationFrameId.current) cancelAnimationFrame(animationFrameId.current);
-        animationFrameId.current = null;
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
-        onComplete(); // Signal that the animation is complete
+        onComplete();
       }
     };
 
-    createParticles();
-    if (!animationFrameId.current) {
-      animate();
-    }
+    animationFrameId.current = requestAnimationFrame(animate);
 
     return () => {
       if (animationFrameId.current) {
