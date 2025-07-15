@@ -32,8 +32,8 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   useEffect(() => {
     setTypingComplete(false);
     setResetTyping(prev => !prev);
-    setShowMy(false); // Reset the sequential animation state
-    setShowJob(false);  // Reset the sequential animation state
+    setShowMy(false); 
+    setShowJob(false);
   }, [showWhy]);
 
   // Reset typing state when "HOW DO I 'DO THE WORK?'" is clicked
@@ -114,7 +114,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
         </div>
         {typingComplete && (
           <button
-            className="mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition"
+            className={`mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition animate-fade-in animate-heartbeat`}
             onClick={() => setShowHow(true)}
           >
             HOW DO I "DO THE WORK?"
