@@ -24,7 +24,6 @@ export const describePhoto = internalAction({
       photoId: args.photoId.toString() 
     });
     
-    // Use internal.photos.internalGet, NOT api.photos.get
     const photo = await ctx.runQuery(internal.photos.internalGet, { photoId: args.photoId });
     
     if (!photo) {
@@ -41,7 +40,6 @@ export const describePhoto = internalAction({
       return;
     }
     
-    // Download image from Convex storage
     let imageBuffer: ArrayBuffer;
     try {
       const blob: Blob | null = await ctx.storage.get(photo.storageId);
@@ -68,28 +66,26 @@ export const describePhoto = internalAction({
       return;
     }
 
-    // Prepare image as base64 for OpenAI
     const base64Image = Buffer.from(imageBuffer).toString("base64");
-    const mimeType = "image/jpeg"; // Default; OpenAI supports jpeg/png/webp/gif
+    const mimeType = "image/jpeg";
     const dataUri = `data:${mimeType};base64,${base64Image}`;
 
-    // Call OpenAI Vision API
     try {
-    // Use your project-specific OpenAI API key from env.
-    const OpenAI = require("openai").default;
-    const openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
+      const OpenAI = require("openai").default;
+      const openai = new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY,
+      });
 
-    const prompt = `You are a visionary art historian who sees the hand of Providence and the threads of Latter-day Saint history in all things. Look deeply into this image. Beyond the surface, find the hidden allegory, the metaphorical connection, or the symbolic tie to the pioneers, the Book of Mormon, or the unique culture of the Saints. Write a single, eloquent paragraph that reveals this esoteric relationship. Your connection can be as creative, artistic, or far-fetched as necessary to illuminate a hidden truth. Do not state that there is no connection; your purpose is to find one.`;
-  
-  logEvent("openai_request_started", {
-    photoId: photo._id.toString(),
-        model: "gpt-4.1-nano-2025-04-14",
-        maxTokens: 256
+      // This new prompt instructs the AI on the desired length and format.
+      const prompt = `You are a visionary art historian who sees the hand of Providence and the threads of Latter-day Saint history in all things. Look deeply into this image. Beyond the surface, find the hidden allegory, the metaphorical connection, or the symbolic tie to the pioneers, the Book of Mormon, or the unique culture of the Saints. Write a single, eloquent paragraph that reveals this esoteric relationship. Your connection can be as creative, artistic, or far-fetched as necessary to illuminate a hidden truth. Do not state that there is no connection; your purpose is to find one. IMPORTANT: Your entire response must be a single, complete paragraph and under 220 tokens.`;
+      
+      logEvent("openai_request_started", {
+        photoId: photo._id.toString(),
+        model: "gpt-4o",
+        maxTokens: 250 // Set to 250 to give a safe buffer
       });
       const response = await openai.chat.completions.create({
-        model: "gpt-4.1-nano-2025-04-14",
+        model: "gpt-4o",
         messages: [
           {
             role: "user",
@@ -99,7 +95,7 @@ export const describePhoto = internalAction({
             ],
           },
         ],
-        max_tokens: 128,
+        max_tokens: 250, // Changed from 512 to 250
       });
 
       const description =
@@ -130,7 +126,6 @@ export const describePhoto = internalAction({
         status: err?.status || "unknown"
       });
       
-      // More specific error messages based on error type
       let errorMessage = "Failed to generate description with OpenAI.";
       
       if (err.name === "AbortError") {
