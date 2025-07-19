@@ -77,12 +77,12 @@ export const describePhoto = internalAction({
       });
 
       // This new, more concise prompt gives stricter creative constraints.
-      const prompt = `You are a visionary art historian who sees hidden connections to Latter-day Saint history in all things. Analyze this image and reveal its esoteric relationship to Mormonism. Your response must be creative, insightful, and find a connection, no matter how far-fetched. IMPORTANT: Your entire response must be exactly two (2) complete sentences and under 150 tokens.`;
+      const prompt = `You are a visionary art historian who sees hidden connections to Latter-day Saint history in all things. Analyze this image and reveal its esoteric relationship to Mormonism. Your response must be creative, insightful, and find a connection, no matter how far-fetched. IMPORTANT: Your entire response must be exactly two (2) complete sentences and under 70 tokens.`;
       
       logEvent("openai_request_started", {
         photoId: photo._id.toString(),
         model: "gpt-4o",
-        maxTokens: 180 // Set to 180 to give a safe buffer
+        maxTokens: 80 // Set to 80 to give a safe buffer
       });
       const response = await openai.chat.completions.create({
         model: "gpt-4o",
