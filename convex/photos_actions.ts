@@ -77,7 +77,7 @@ export const describePhoto = internalAction({
       });
 
       // This new prompt instructs the AI on the desired length and format.
-      const prompt = `You are a visionary art historian who sees the hand of Providence and the threads of Latter-day Saint history in all things. Look deeply into this image. Beyond the surface, find the hidden allegory, the metaphorical connection, or the symbolic tie to the pioneers, the Book of Mormon, or the unique culture of the Saints. Write a single, eloquent paragraph that reveals this esoteric relationship. Your connection can be as creative, artistic, or far-fetched as necessary to illuminate a hidden truth. Do not state that there is no connection; your purpose is to find one. IMPORTANT: Your entire response must be a single, complete paragraph and under 220 tokens.`;
+      const prompt = `You are a visionary art historian who sees the hand of Providence and the threads of Latter-day Saint history in all things. Look deeply into this image. Beyond the surface, find the hidden allegory, the metaphorical connection, or the symbolic tie to the pioneers, the Book of Mormon, or the unique culture of the Saints. Your connection can be as creative, artistic, or far-fetched as necessary to illuminate a hidden truth. Do not state that there is no connection; your purpose is to find one. IMPORTANT: Your entire response must be a single, complete paragraph of no more than four (4) sentences and must be under 220 tokens.`;
       
       logEvent("openai_request_started", {
         photoId: photo._id.toString(),
@@ -95,7 +95,7 @@ export const describePhoto = internalAction({
             ],
           },
         ],
-        max_tokens: 250, // Changed from 512 to 250
+        max_tokens: 250,
       });
 
       const description =
