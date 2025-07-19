@@ -76,13 +76,13 @@ export const describePhoto = internalAction({
         apiKey: process.env.OPENAI_API_KEY,
       });
 
-      // This new prompt instructs the AI on the desired length and format.
-      const prompt = `You are a visionary art historian who sees the hand of Providence and the threads of Latter-day Saint history in all things. Look deeply into this image. Beyond the surface, find the hidden allegory, the metaphorical connection, or the symbolic tie to the pioneers, the Book of Mormon, or the unique culture of the Saints. Your connection can be as creative, artistic, or far-fetched as necessary to illuminate a hidden truth. Do not state that there is no connection; your purpose is to find one. IMPORTANT: Your entire response must be a single, complete paragraph of no more than four (4) sentences and must be under 220 tokens.`;
+      // This new, more concise prompt gives stricter creative constraints.
+      const prompt = `You are a visionary art historian who sees hidden connections to Latter-day Saint history in all things. Analyze this image and reveal its esoteric relationship to Mormonism. Your response must be creative, insightful, and find a connection, no matter how far-fetched. IMPORTANT: Your entire response must be exactly two (2) complete sentences and under 150 tokens.`;
       
       logEvent("openai_request_started", {
         photoId: photo._id.toString(),
         model: "gpt-4o",
-        maxTokens: 250 // Set to 250 to give a safe buffer
+        maxTokens: 180 // Set to 180 to give a safe buffer
       });
       const response = await openai.chat.completions.create({
         model: "gpt-4o",
@@ -95,7 +95,7 @@ export const describePhoto = internalAction({
             ],
           },
         ],
-        max_tokens: 250,
+        max_tokens: 180, // Changed from 250 to 180
       });
 
       const description =
