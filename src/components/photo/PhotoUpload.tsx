@@ -57,8 +57,9 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
         ) : (
           <span className="text-gray-300">
             Drag & drop or click to upload a photo.
-            <br />
-            Our powerful AI algorithm will analyze your image's woke-ness and return a definitive answer.
+            <br>
+            Our <i>powerful</i> AI algorithm will analyze your image's woke-ness and return a definitive answer.
+            </br>
           </span>
         )}
         <input
