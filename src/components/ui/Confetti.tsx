@@ -9,8 +9,7 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animationFrameId = useRef<number | null>(null);
 
-  // Use refs to track props inside the animation loop.
-  // This prevents the effect from re-running and causing the animation "hiccup".
+  // Use a ref to track the color prop inside the animation loop.
   const colorRef = useRef(color);
   colorRef.current = color;
   const onCompleteRef = useRef(onComplete);
@@ -34,12 +33,14 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
           y: -Math.random() * canvas.height,
           width: Math.random() * 10 + 5,
           height: Math.random() * 20 + 8,
-          velocity: { x: (Math.random() - 0.5) * 7, y: Math.random() * 3 + 2 },
+          // Reduced initial Y velocity for a slower start
+          velocity: { x: (Math.random() - 0.5) * 5, y: Math.random() * 1.5 + 1 },
           rotation: Math.random() * 360,
-          rotationSpeed: (Math.random() - 0.5) * 5,
+          rotationSpeed: (Math.random() - 0.5) * 3,
         });
     }
 
+    // Stop generating new particles after 2.5 seconds
     const stopTime = Date.now() + 2500;
 
     const animate = () => {
@@ -52,7 +53,8 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
 
           particle.y += particle.velocity.y;
           particle.x += particle.velocity.x;
-          particle.velocity.y += 0.05;
+          // Reduced gravity for a slower, more "floaty" fall
+          particle.velocity.y += 0.03; 
           particle.rotation += particle.rotationSpeed;
 
           ctx.save();
@@ -62,6 +64,7 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
           ctx.fillRect(-particle.width / 2, -particle.height / 2, particle.width, particle.height);
           ctx.restore();
         } else if (Date.now() < stopTime) {
+          // Recycle particles only before the stop time
           activeParticles++;
           particle.y = -20;
           particle.x = Math.random() * canvas.width;
@@ -71,6 +74,7 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
       if (activeParticles > 0) {
         animationFrameId.current = requestAnimationFrame(animate);
       } else {
+        // Animation is complete, call the callback
         onCompleteRef.current();
       }
     };
@@ -82,7 +86,6 @@ const Confetti: React.FC<ConfettiProps> = ({ color, onComplete }) => {
         cancelAnimationFrame(animationFrameId.current);
       }
     };
-    // The empty dependency array is key: it ensures this effect runs only ONCE.
   }, []);
 
   return (
