@@ -70,7 +70,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
         }`}
         onClick={() => setShowWhy(true)}
       >
-        WHY IS IT WOKE?
+        WAIT, WHY IS IT WOKE?
       </button>
     );
   }
