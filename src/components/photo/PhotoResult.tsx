@@ -109,7 +109,6 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                   showCursor={false}
                 />
               )}
-              {typingComplete && <span className="inline-block w-1 h-8 ml-0.5 bg-white animate-pulse"></span>}
             </>
           )}
         </div>
