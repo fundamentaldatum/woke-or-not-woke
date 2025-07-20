@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PhotoResultProps } from '../../types';
-import { TypewriterText, AnalysisText } from '../../components/ui'; // Import AnalysisText
+import { TypewriterText } from '../../components/ui';
 
 /**
  * Component for displaying photo analysis results
@@ -48,8 +48,8 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
 
   if (photoStatus === "pending") {
     return (
-      <div className="w-full max-w-xs">
-        <AnalysisText />
+      <div className="text-yellow-400 font-semibold text-center py-4">
+        Analyzing photo...
       </div>
     );
   }
@@ -70,7 +70,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
         }`}
         onClick={() => setShowWhy(true)}
       >
-        WAIT, WHY IS IT WOKE?
+        WHY IS IT WOKE?
       </button>
     );
   }
@@ -106,9 +106,10 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                   typingSpeed={60}
                   onComplete={() => setTypingComplete(true)}
                   reset={resetTyping}
-                  showCursor={true}
+                  showCursor={false}
                 />
               )}
+              {typingComplete && <span className="inline-block w-1 h-8 ml-0.5 bg-white animate-pulse"></span>}
             </>
           )}
         </div>
