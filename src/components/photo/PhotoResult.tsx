@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { PhotoResultProps } from '../../types';
-import { TypewriterText } from '../../components/ui';
+import { TypewriterText, AnalysisText } from '../../components/ui'; // Import AnalysisText
 
 /**
  * Component for displaying photo analysis results
@@ -48,8 +48,8 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
 
   if (photoStatus === "pending") {
     return (
-      <div className="text-yellow-400 font-semibold text-center py-4">
-        Analyzing photo...
+      <div className="w-full max-w-xs">
+        <AnalysisText />
       </div>
     );
   }
