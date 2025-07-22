@@ -107,7 +107,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
           )}
           {showDescriptionTyping && description && (
             <TypewriterText
-              text={`${description} Clearly, there's more work to be done. Would you like to know how to "do the work?"`}
+              text={`${description} Clearly, there's more work to be done. Would you like to know how to "DO THE WORK?"`}
               className="inline"
               typingSpeed={30}
               onComplete={() => setTypingComplete(true)} // Set typing complete to show the next button
