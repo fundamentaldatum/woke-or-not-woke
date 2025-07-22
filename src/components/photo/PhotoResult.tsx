@@ -121,7 +121,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
             className={`mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition animate-fade-in animate-heartbeat`}
             onClick={() => setShowHow(true)}
           >
-            YES,HOW DO I "DO THE WORK?"
+            YES, HOW DO I "DO THE WORK?"
           </button>
         )}
       </div>
