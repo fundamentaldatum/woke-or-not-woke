@@ -211,7 +211,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
               typingSpeed={60}
               onComplete={() => {}}
               reset={resetTyping}
-              showCursor={true}
+              showCursor={false}
             />
           )}
         </div>
