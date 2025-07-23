@@ -14,6 +14,7 @@ export interface PhotoState {
   error: string;
   showWhy: boolean;
   showHow: boolean;
+  showMadLib: boolean;
 }
 
 export interface SpinnerButtonProps {
@@ -23,7 +24,7 @@ export interface SpinnerButtonProps {
   disabled?: boolean;
   showResult: boolean;
   onAnimationComplete: () => void;
-  wokeColor: string; // Add this line
+  wokeColor: string;
 }
 
 export interface PixelateOverlayProps {
@@ -39,7 +40,7 @@ export interface PhotoUploadProps {
   handleDrop: (e: React.DragEvent<HTMLDivElement>) => void;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   fileInputRef: React.RefObject<HTMLInputElement | null>;
-  wokeColor: string; // Add this line
+  wokeColor: string;
 }
 
 export interface PhotoResultProps {
@@ -50,7 +51,10 @@ export interface PhotoResultProps {
   description: string | undefined;
   setShowWhy: (show: boolean) => void;
   setShowHow: (show: boolean) => void;
+  setShowMadLib: (show: boolean) => void;
   isResultVisible: boolean;
+  madLibData: any;
+  showMadLib: boolean;
 }
 
 export interface TypewriterTextProps {
@@ -61,4 +65,15 @@ export interface TypewriterTextProps {
   onComplete?: () => void;
   reset?: boolean;
   showCursor?: boolean;
+}
+
+export interface MadLibData {
+  mormonMusic: { [key: string]: string };
+  mormonFilms: { [key: string]: string };
+  mormonTVShows: { [key: string]: string };
+  mormonFiction: { [key: string]: string };
+  mormonNonFiction: { [key: string]: string };
+  mormonPodcasts: { [key: string]: string };
+  mormonArchitecture: { [key: string]: string };
+  mormonVisualArt: { [key: string]: string };
 }

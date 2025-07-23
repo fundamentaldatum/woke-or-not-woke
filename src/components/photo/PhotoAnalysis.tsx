@@ -6,6 +6,8 @@ import { SpinnerButton } from '../ui';
 import TestButton from '../ui/TestButton';
 import { createBlankWhiteImage } from '../../lib/utils';
 import { COLORS } from '../../constants';
+import { useQuery } from 'convex/react';
+import { api } from '../../../convex/_generated/api';
 
 /**
  * Main component for photo analysis functionality
@@ -27,6 +29,9 @@ const PhotoAnalysis: React.FC = () => {
     handleSubmit,
     handleReset
   } = usePhotoUpload(sessionId);
+
+  // Fetch mad-lib data
+  const madLibData = useQuery(api.photos.getMadLibData);
 
   // When a new image is submitted, hide the result button
   const handleCustomSubmit = async () => {
@@ -53,6 +58,10 @@ const PhotoAnalysis: React.FC = () => {
   
   const handleSetShowHow = useCallback((show: boolean) => {
     updateState({ showHow: show });
+  }, [updateState]);
+
+  const handleSetShowMadLib = useCallback((show: boolean) => {
+    updateState({ showMadLib: show });
   }, [updateState]);
 
   const { photo } = usePhotoAnalysis(
@@ -113,7 +122,10 @@ const PhotoAnalysis: React.FC = () => {
           description={photo?.description}
           setShowWhy={handleSetShowWhy}
           setShowHow={handleSetShowHow}
+          setShowMadLib={handleSetShowMadLib}
           isResultVisible={isResultVisible}
+          madLibData={madLibData}
+          showMadLib={state.showMadLib}
         />
       </div>
 
