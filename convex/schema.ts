@@ -17,56 +17,56 @@ const applicationTables = {
     artist: v.string(),
     year: v.number(),
     runtime: v.string(),
-    wikipediaEntry: v.string(),
+    wikipediaLink: v.string(), // Corrected
   }),
   mormonFilms: defineTable({
     title: v.string(),
     year: v.number(),
     mpaaRating: v.string(),
     runtime: v.string(),
-    wikipediaEntry: v.string(),
+    wikipediaLink: v.string(), // Corrected
   }),
   mormonTVShows: defineTable({
     title: v.string(),
     network: v.string(),
     initialYearAired: v.number(),
     genre: v.string(),
-    linkToWikipediaEntry: v.string(),
+    wikipediaLink: v.string(), // Corrected
   }),
   mormonFiction: defineTable({
     title: v.string(),
     author: v.string(),
     yearReleased: v.number(),
-    pageCount: v.number(), // Corrected from howManyPages
-    wikipediaLink: v.string(), // Corrected from linkToWikipediaEntry
+    pageCount: v.number(),
+    wikipediaLink: v.string(),
   }),
   mormonNonFiction: defineTable({
     title: v.string(),
     author: v.string(),
     yearReleased: v.number(),
-    pageCount: v.number(), // Corrected from howManyPages
-    wikipediaLink: v.string(), // Corrected from linkToWikipediaEntry
+    pageCount: v.number(),
+    wikipediaLink: v.string(),
   }),
   mormonPodcasts: defineTable({
     title: v.string(),
     podcastNetwork: v.string(),
     yearInitiallyReleased: v.number(),
     genre: v.string(),
-    linkToPodcast: v.string(),
+    podcastLink: v.string(), // Corrected
   }),
   mormonArchitecture: defineTable({
     title: v.string(),
     architect: v.string(),
     yearCompleted: v.number(),
-    constructionCost: v.string(), // Corrected from howMuchDidItCostToBuild
-    wikipediaLink: v.string(), // Corrected from linkToWikipediaEntry
+    constructionCost: v.string(),
+    wikipediaLink: v.string(),
   }),
   mormonVisualArt: defineTable({
     title: v.string(),
     artist: v.string(),
     yearCompleted: v.number(),
     genre: v.string(),
-    wikipediaLink: v.string(), // Corrected from linkToWikipediaEntry
+    wikipediaLink: v.string(),
   }),
 };
 
