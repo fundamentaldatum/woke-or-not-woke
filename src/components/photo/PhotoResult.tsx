@@ -69,19 +69,19 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
     const link = data.wikipediaLink || data.podcastLink || '#';
 
     let details = ` (${genre}`;
-    if (runtime !== 'N/A') details += `, ${runtime}`;
+    if (runtime !== 'N/A' && runtime) details += `, ${runtime}`;
     details += `)`;
     
     // Use a Record to explicitly type the keys of the typeSteps object
     const typeSteps: Record<MadLibType, { title: number; details: number }> = {
-      'music': { title: 4, details: 5 },
-      'film': { title: 7, details: 8 },
-      'tv': { title: 10, details: 11 },
-      'fiction': { title: 13, details: 14 },
-      'nonfiction': { title: 16, details: 17 },
-      'podcast': { title: 19, details: 20 },
-      'architecture': { title: 22, details: 23 },
-      'art': { title: 25, details: 26 }
+      'music': { title: 5, details: 6 },
+      'film': { title: 8, details: 9 },
+      'tv': { title: 11, details: 12 },
+      'fiction': { title: 14, details: 15 },
+      'nonfiction': { title: 17, details: 18 },
+      'podcast': { title: 20, details: 21 },
+      'architecture': { title: 23, details: 24 },
+      'art': { title: 26, details: 27 }
     };
 
     return (
@@ -211,7 +211,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
               typingSpeed={60}
               onComplete={() => {}}
               reset={resetTyping}
-              showCursor={false}
+              showCursor={true}
             />
           )}
         </div>
@@ -231,26 +231,37 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
     }
     return (
       <div className="text-white text-left py-4 font-semibold w-full">
-        {madLibStep >= 0 && <TypewriterText text="Well, first of all, you should be attending at least one " onComplete={() => setMadLibStep(1)} />}
-        {madLibStep >= 1 && <><b>Sacrament Meeting</b><TypewriterText text=" every week. You can find your local ward / temple at the " onComplete={() => setMadLibStep(2)} /></>}
-        {madLibStep >= 2 && <><a href="https://www.churchofjesuschrist.org" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">Church of Latter Day Saints website</a><TypewriterText text="." onComplete={() => setMadLibStep(3)} /></>}
+        {madLibStep >= 0 && <span><TypewriterText text="Well, first of all, you should be attending at least one " onComplete={() => setMadLibStep(1)} /></span>}
+        {madLibStep >= 1 && <span><b>Sacrament Meeting</b><TypewriterText text=" every week. You can find your local ward / temple at the " onComplete={() => setMadLibStep(2)} /></span>}
+        {madLibStep >= 2 && <span><a href="https://www.churchofjesuschrist.org" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">Church of Latter Day Saints website</a><TypewriterText text="." onComplete={() => setMadLibStep(3)} /></span>}
+        
         {madLibStep >= 3 && <div className="mt-4"><TypewriterText text="If you’re really interested in “doing the work,” you’ll listen to:" onComplete={() => setMadLibStep(4)} /></div>}
         {madLibStep >= 4 && renderMadLibEntry(madLibData.mormonMusic, 'music')}
+
         {madLibStep >= 6 && <div className="mt-4"><TypewriterText text="You’ll also need to watch:" onComplete={() => setMadLibStep(7)} /></div>}
         {madLibStep >= 7 && renderMadLibEntry(madLibData.mormonFilms, 'film')}
+
         {madLibStep >= 9 && <div className="mt-4"><TypewriterText text="This is not enough to successfully “do the work.” You should watch at least one season of:" onComplete={() => setMadLibStep(10)} /></div>}
         {madLibStep >= 10 && renderMadLibEntry(madLibData.mormonTVShows, 'tv')}
+
         {madLibStep >= 12 && <div className="mt-4"><TypewriterText text="At this point, your work remains incomplete. Enjoy some lighter material as you reflect on your depravity. Read:" onComplete={() => setMadLibStep(13)} /></div>}
         {madLibStep >= 13 && renderMadLibEntry(madLibData.mormonFiction, 'fiction')}
+
         {madLibStep >= 15 && <div className="mt-4"><TypewriterText text="Enough of this. It is time to take your “work” seriously. Read:" onComplete={() => setMadLibStep(16)} /></div>}
         {madLibStep >= 16 && renderMadLibEntry(madLibData.mormonNonFiction, 'nonfiction')}
-        {madLibStep >= 18 && <div className="mt-4"><TypewriterText text="Before your next <b>Sacrament Meeting</b>, make sure to subscribe and listen to at least a couple episodes of:" onComplete={() => setMadLibStep(19)} /></div>}
-        {madLibStep >= 19 && renderMadLibEntry(madLibData.mormonPodcasts, 'podcast')}
-        {madLibStep >= 21 && <div className="mt-4"><TypewriterText text="If, at this point, you are still willing to “do the work,” you’ll visit:" onComplete={() => setMadLibStep(22)} /></div>}
-        {madLibStep >= 22 && renderMadLibEntry(madLibData.mormonArchitecture, 'architecture')}
-        {madLibStep >= 24 && <div className="mt-4"><TypewriterText text="There, you will find penance. Your work shall be complete. But not before you genuflect before:" onComplete={() => setMadLibStep(25)} /></div>}
-        {madLibStep >= 25 && renderMadLibEntry(madLibData.mormonVisualArt, 'art')}
-        {madLibStep >= 27 && <div className="mt-4"><TypewriterText text="Then, <b>and only then</b>, your “work” is complete. You have successfully rid yourself of woke-ness. Never watch television ever again." onComplete={() => setMadLibStep(28)} /></div>}
+
+        {madLibStep >= 18 && <div className="mt-4"><span><TypewriterText text="Before your next " onComplete={() => setMadLibStep(19)} /></span></div>}
+        {madLibStep >= 19 && <span><b>Sacrament Meeting</b><TypewriterText text={`, make sure to subscribe and listen to at least a couple episodes of:`} onComplete={() => setMadLibStep(20)} /></span>}
+        {madLibStep >= 20 && renderMadLibEntry(madLibData.mormonPodcasts, 'podcast')}
+        
+        {madLibStep >= 22 && <div className="mt-4"><TypewriterText text="If, at this point, you are still willing to “do the work,” you’ll visit:" onComplete={() => setMadLibStep(23)} /></div>}
+        {madLibStep >= 23 && renderMadLibEntry(madLibData.mormonArchitecture, 'architecture')}
+
+        {madLibStep >= 25 && <div className="mt-4"><TypewriterText text="There, you will find penance. Your work shall be complete. But not before you genuflect before:" onComplete={() => setMadLibStep(26)} /></div>}
+        {madLibStep >= 26 && renderMadLibEntry(madLibData.mormonVisualArt, 'art')}
+
+        {madLibStep >= 28 && <div className="mt-4"><span><TypewriterText text="Then, " onComplete={() => setMadLibStep(29)} /></span></div>}
+        {madLibStep >= 29 && <span><b>and only then</b><TypewriterText text={`, your “work” is complete. You have successfully rid yourself of woke-ness. Never watch television ever again.`} onComplete={() => setMadLibStep(30)} /></span>}
       </div>
     );
   }
