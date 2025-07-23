@@ -29,9 +29,6 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   const [showKnow, setShowKnow] = useState(false);
   const [showDescriptionTyping, setShowDescriptionTyping] = useState(false);
 
-  // State for mad-lib animation steps
-  const [madLibStep, setMadLibStep] = useState(0);
-
   useEffect(() => {
     setTypingComplete(false);
     setResetDescriptionTyping(prev => !prev);
@@ -48,11 +45,26 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
     }
   }, [showHow]);
 
-  useEffect(() => {
-    if (showMadLib) {
-      setMadLibStep(0);
-    }
-  }, [showMadLib]);
+  const getMadLibScript = () => {
+    if (!madLibData) return "Loading...";
+    return `Well, first of all, you should be attending at least one <b>Sacrament Meeting</b> every week. You can find your local ward / temple at the <a href="https://www.churchofjesuschrist.org”>Church of Latter Day Saints website</a>.
+<br>
+If you’re really interested in “doing the work,” you’ll listen to ${madLibData.mormonMusic.TITLE} by ${madLibData.mormonMusic.ARTIST}.
+<br>
+You’ll also need to watch ${madLibData.mormonFilms.TITLE}.
+<br>
+This is not enough to successfully “do the work.” You should watch at least one season of ${madLibData.mormonTVShows.TITLE}.
+<br>
+At this point, your work remains incomplete. Enjoy some lighter material as you reflect on your depravity. Read ${madLibData.mormonFiction.TITLE} by ${madLibData.mormonFiction.AUTHOR}.
+<br>
+Enough of this. It is time to take your “work” seriously. Read ${madLibData.mormonNonFiction.TITLE} by ${madLibData.mormonNonFiction.AUTHOR}.
+<br>
+Before your next <b>Sacrament Meeting</b>, make sure to subscribe and listen to at least a couple episodes of ${madLibData.mormonPodcasts.TITLE}.
+<br>
+If, at this point, you are still willing to “do the work,” you’ll visit ${madLibData.mormonArchitecture.TITLE}. There, you will find penance. Your work shall be complete. But not before you genuflect before ${madLibData.mormonVisualArt.TITLE} by ${madLibData.mormonVisualArt.ARTIST}.
+<br>
+Then, <b>and only then</b>, your “work” is complete. You have successfully rid yourself of woke-ness. Never watch television ever again.`;
+  };
 
   if (photoStatus === "pending") {
     return (
@@ -164,7 +176,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
               typingSpeed={60}
               onComplete={() => {}}
               reset={resetTyping}
-              showCursor={true}
+              showCursor={false}
             />
           )}
         </div>
@@ -179,89 +191,8 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   }
 
   if (photoStatus === "done" && showWhy && showHow && showMadLib) {
-    if (!madLibData) {
-      return <div className="text-white">Loading recommendations...</div>;
-    }
     return (
-      <div className="text-white text-left py-4 font-semibold w-full">
-        {madLibStep >= 0 && (
-          <TypewriterText
-            text="Well, first of all, you should be attending at least one "
-            onComplete={() => setMadLibStep(1)}
-          />
-        )}
-        {madLibStep >= 1 && (
-          <>
-            <b>Sacrament Meeting</b>
-            <TypewriterText text=" every week. You can find your local ward / temple at the " onComplete={() => setMadLibStep(2)} />
-          </>
-        )}
-        {madLibStep >= 2 && (
-          <>
-            <a href="https://www.churchofjesuschrist.org" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">Church of Latter Day Saints website</a>
-            <TypewriterText text="." onComplete={() => setMadLibStep(3)} />
-          </>
-        )}
-        {madLibStep >= 3 && (
-          <>
-            <br />
-            <TypewriterText text={`If you’re really interested in “doing the work,” you’ll listen to ${madLibData.mormonMusic.TITLE} by ${madLibData.mormonMusic.ARTIST}.`} onComplete={() => setMadLibStep(4)} />
-          </>
-        )}
-        {madLibStep >= 4 && (
-          <>
-            <br />
-            <TypewriterText text={`You’ll also need to watch ${madLibData.mormonFilms.TITLE}.`} onComplete={() => setMadLibStep(5)} />
-          </>
-        )}
-        {madLibStep >= 5 && (
-          <>
-            <br />
-            <TypewriterText text={`This is not enough to successfully “do the work.” You should watch at least one season of ${madLibData.mormonTVShows.TITLE}.`} onComplete={() => setMadLibStep(6)} />
-          </>
-        )}
-        {madLibStep >= 6 && (
-          <>
-            <br />
-            <TypewriterText text={`At this point, your work remains incomplete. Enjoy some lighter material as you reflect on your depravity. Read ${madLibData.mormonFiction.TITLE} by ${madLibData.mormonFiction.AUTHOR}.`} onComplete={() => setMadLibStep(7)} />
-          </>
-        )}
-        {madLibStep >= 7 && (
-          <>
-            <br />
-            <TypewriterText text={`Enough of this. It is time to take your “work” seriously. Read ${madLibData.mormonNonFiction.TITLE} by ${madLibData.mormonNonFiction.AUTHOR}.`} onComplete={() => setMadLibStep(8)} />
-          </>
-        )}
-        {madLibStep >= 8 && (
-          <>
-            <br />
-            <TypewriterText text={`Before your next `} onComplete={() => setMadLibStep(9)} />
-          </>
-        )}
-        {madLibStep >= 9 && (
-          <>
-            <b>Sacrament Meeting</b>
-            <TypewriterText text={`, make sure to subscribe and listen to at least a couple episodes of ${madLibData.mormonPodcasts.TITLE}.`} onComplete={() => setMadLibStep(10)} />
-          </>
-        )}
-        {madLibStep >= 10 && (
-          <>
-            <br />
-            <TypewriterText text={`If, at this point, you are still willing to “do the work,” you’ll visit ${madLibData.mormonArchitecture.TITLE}. There, you will find penance. Your work shall be complete. But not before you genuflect before ${madLibData.mormonVisualArt.TITLE} by ${madLibData.mormonVisualArt.ARTIST}.`} onComplete={() => setMadLibStep(11)} />
-          </>
-        )}
-        {madLibStep >= 11 && (
-          <>
-            <br />
-            <TypewriterText text={`Then, `} onComplete={() => setMadLibStep(12)} />
-          </>
-        )}
-        {madLibStep >= 12 && (
-          <>
-            <b>and only then</b>
-            <TypewriterText text={`, your “work” is complete. You have successfully rid yourself of woke-ness. Never watch television ever again.`} onComplete={() => setMadLibStep(13)} />
-          </>
-        )}
+      <div className="text-white text-center py-4 font-semibold" dangerouslySetInnerHTML={{ __html: getMadLibScript() }}>
       </div>
     );
   }
