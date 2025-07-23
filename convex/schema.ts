@@ -15,13 +15,13 @@ const applicationTables = {
   mormonMusic: defineTable({
     title: v.string(),
     artist: v.string(),
-    year: v.string(),
+    year: v.number(),
     runtime: v.string(),
     wikipediaEntry: v.string(),
   }),
   mormonFilms: defineTable({
     title: v.string(),
-    year: v.string(),
+    year: v.number(),
     mpaaRating: v.string(),
     runtime: v.string(),
     wikipediaEntry: v.string(),
@@ -29,44 +29,44 @@ const applicationTables = {
   mormonTVShows: defineTable({
     title: v.string(),
     network: v.string(),
-    initialYearAired: v.string(),
+    initialYearAired: v.number(),
     genre: v.string(),
     linkToWikipediaEntry: v.string(),
   }),
   mormonFiction: defineTable({
     title: v.string(),
     author: v.string(),
-    yearReleased: v.string(),
-    howManyPages: v.string(),
-    linkToWikipediaEntry: v.string(),
+    yearReleased: v.number(),
+    pageCount: v.number(), // Corrected from howManyPages
+    wikipediaLink: v.string(), // Corrected from linkToWikipediaEntry
   }),
   mormonNonFiction: defineTable({
     title: v.string(),
     author: v.string(),
-    yearReleased: v.string(),
-    howManyPages: v.string(),
-    linkToWikipediaEntry: v.string(),
+    yearReleased: v.number(),
+    pageCount: v.number(), // Corrected from howManyPages
+    wikipediaLink: v.string(), // Corrected from linkToWikipediaEntry
   }),
   mormonPodcasts: defineTable({
     title: v.string(),
     podcastNetwork: v.string(),
-    yearInitiallyReleased: v.string(),
+    yearInitiallyReleased: v.number(),
     genre: v.string(),
     linkToPodcast: v.string(),
   }),
   mormonArchitecture: defineTable({
     title: v.string(),
     architect: v.string(),
-    yearCompleted: v.string(),
-    howMuchDidItCostToBuild: v.string(),
-    linkToWikipediaEntry: v.string(),
+    yearCompleted: v.number(),
+    constructionCost: v.string(), // Corrected from howMuchDidItCostToBuild
+    wikipediaLink: v.string(), // Corrected from linkToWikipediaEntry
   }),
   mormonVisualArt: defineTable({
     title: v.string(),
     artist: v.string(),
-    yearCompleted: v.string(),
+    yearCompleted: v.number(),
     genre: v.string(),
-    linkToWikipediaEntry: v.string(),
+    wikipediaLink: v.string(), // Corrected from linkToWikipediaEntry
   }),
 };
 

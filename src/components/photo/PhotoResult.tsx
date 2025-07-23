@@ -65,8 +65,8 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
     const title = data.title || 'N/A';
     const artist = data.artist || data.author || data.network || 'N/A';
     const genre = data.genre || 'N/A';
-    const runtime = data.runtime || data.howManyPages || 'N/A';
-    const link = data.wikipediaEntry || data.linkToWikipediaEntry || data.linkToPodcast || '#';
+    const runtime = data.runtime || data.howManyPages || data.pageCount || data.constructionCost || 'N/A';
+    const link = data.wikipediaEntry || data.linkToWikipediaEntry || data.linkToPodcast || data.wikipediaLink || '#';
 
     let details = ` (${genre}`;
     if (runtime !== 'N/A') details += `, ${runtime}`;
