@@ -59,42 +59,44 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
 
   const renderMadLibEntry = (data: any, type: MadLibType) => {
     if (!data) {
-      return <div className="my-2 p-2 border border-gray-600 rounded text-gray-400">Loading entry...</div>;
+      return <div className="my-2 p-3 border border-gray-600 rounded text-gray-400">Loading entry...</div>;
     }
 
-    const title = data.title || 'N/A';
-    const artist = data.artist || data.author || data.network || 'N/A';
-    const genre = data.genre || 'N/A';
-    const runtime = data.runtime || data.pageCount || data.constructionCost || 'N/A';
-    const link = data.wikipediaLink || data.podcastLink || '#';
-
-    let details = ` (${genre}`;
-    if (runtime !== 'N/A' && runtime) details += `, ${runtime}`;
-    details += `)`;
-    
-    // Use a Record to explicitly type the keys of the typeSteps object
-    const typeSteps: Record<MadLibType, { title: number; details: number }> = {
-      'music': { title: 5, details: 6 },
-      'film': { title: 8, details: 9 },
-      'tv': { title: 11, details: 12 },
-      'fiction': { title: 14, details: 15 },
-      'nonfiction': { title: 17, details: 18 },
-      'podcast': { title: 20, details: 21 },
-      'architecture': { title: 23, details: 24 },
-      'art': { title: 26, details: 27 }
+    const labels: Record<MadLibType, { category: string; credit: string; duration: string }> = {
+      music: { category: "Music Recommendation", credit: "Artist", duration: "Runtime" },
+      film: { category: "Film Recommendation", credit: "Details", duration: "Runtime" },
+      tv: { category: "TV Show Recommendation", credit: "Network", duration: "Genre" },
+      fiction: { category: "Fiction Recommendation", credit: "Author", duration: "Pages" },
+      nonfiction: { category: "Non-Fiction Recommendation", credit: "Author", duration: "Pages" },
+      podcast: { category: "Podcast Recommendation", credit: "Network", duration: "Genre" },
+      architecture: { category: "Architecture to Visit", credit: "Architect", duration: "Year" },
+      art: { category: "Art to View", credit: "Artist", duration: "Genre" },
     };
 
+    const currentLabels = labels[type];
+    const title = data.title || 'N/A';
+    const credit = data.artist || data.author || data.network || data.architect || 'N/A';
+    const duration = data.runtime || data.pageCount || data.yearCompleted || 'N/A';
+    const genre = data.genre || 'N/A';
+    const link = data.wikipediaLink || data.podcastLink || '#';
+
+    const typeSteps: Record<MadLibType, number> = {
+      music: 5, film: 8, tv: 11, fiction: 14, nonfiction: 17, podcast: 20, architecture: 23, art: 26
+    };
+    
     return (
-      <div className="my-2 p-2 border border-gray-600 rounded">
-        <TypewriterText text={title} onComplete={() => setMadLibStep(typeSteps[type].title)} />
-        {madLibStep >= typeSteps[type].title && (
-          <div className="text-sm text-gray-400">
-            <TypewriterText text={`${artist} ${details} - `} onComplete={() => setMadLibStep(typeSteps[type].details)} />
-            {madLibStep >= typeSteps[type].details && (
-              <a href={link} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">
-                Learn More
-              </a>
-            )}
+      <div className="my-3 p-3 border border-gray-600 rounded bg-gray-800/20 w-full">
+        <h3 className="text-lg font-bold text-yellow-400 mb-2">
+          <TypewriterText text={currentLabels.category} onComplete={() => setMadLibStep(madLibStep + 1)} />
+        </h3>
+        {madLibStep > typeSteps[type] && (
+          <div className="text-sm space-y-1">
+            <p><strong>Title:</strong> {title}</p>
+            <p><strong>{currentLabels.credit}:</strong> {credit}</p>
+            <p><strong>{type === 'tv' ? 'Genre' : currentLabels.duration}:</strong> {type === 'tv' ? genre : duration}</p>
+            <a href={link} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline pt-1 inline-block">
+              Learn More
+            </a>
           </div>
         )}
       </div>
@@ -102,135 +104,55 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   };
   
   if (photoStatus === "pending") {
-    return (
-      <div className="w-full max-w-xs">
-        <AnalysisText />
-      </div>
-    );
+    return <div className="w-full max-w-xs"><AnalysisText /></div>;
   }
-
   if (photoStatus === "error" && error) {
-    return (
-      <div className="text-red-500 font-semibold text-center py-4">
-        Error: {error}
-      </div>
-    );
+    return <div className="text-red-500 font-semibold text-center py-4">Error: {error}</div>;
   }
-
   if (photoStatus === "done" && !showWhy) {
     return (
       <button
-        className={`bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition ${
-          isResultVisible ? 'animate-fade-in animate-heartbeat' : 'opacity-0'
-        }`}
+        className={`bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition ${isResultVisible ? 'animate-fade-in animate-heartbeat' : 'opacity-0'}`}
         onClick={() => setShowWhy(true)}
       >
         WAIT, WHY IS IT WOKE?
       </button>
     );
   }
-
   if (photoStatus === "done" && showWhy && !showHow) {
+    // ... (This section remains unchanged)
     return (
       <div className="flex flex-col items-center">
         <div className="text-white text-center py-4 font-semibold">
-          <TypewriterText
-            text="If you "
-            className="inline"
-            typingSpeed={50}
-            onComplete={() => setShowMust(true)}
-            reset={resetDescriptionTyping}
-          />
-          {showMust && (
-            <TypewriterText
-              text="MUST"
-              className="inline italic"
-              typingSpeed={50}
-              onComplete={() => setShowKnow(true)}
-              reset={resetDescriptionTyping}
-            />
-          )}
-          {showKnow && (
-            <TypewriterText
-              text=" know... "
-              className="inline"
-              typingSpeed={50}
-              onComplete={() => setShowDescriptionTyping(true)}
-              reset={resetDescriptionTyping}
-            />
-          )}
-          {showDescriptionTyping && description && (
-            <TypewriterText
-              text={`${description} Clearly, there's more work to be done. Would you like to know how to "DO THE WORK?"`}
-              className="inline"
-              typingSpeed={30}
-              onComplete={() => setTypingComplete(true)}
-              reset={resetDescriptionTyping}
-            />
-          )}
+          <TypewriterText text="If you " className="inline" typingSpeed={50} onComplete={() => setShowMust(true)} reset={resetDescriptionTyping} />
+          {showMust && <TypewriterText text="MUST" className="inline italic" typingSpeed={50} onComplete={() => setShowKnow(true)} reset={resetDescriptionTyping} />}
+          {showKnow && <TypewriterText text=" know... " className="inline" typingSpeed={50} onComplete={() => setShowDescriptionTyping(true)} reset={resetDescriptionTyping} />}
+          {showDescriptionTyping && description && <TypewriterText text={`${description} Clearly, there's more work to be done. Would you like to know how to "DO THE WORK?"`} className="inline" typingSpeed={30} onComplete={() => setTypingComplete(true)} reset={resetDescriptionTyping} />}
           {showDescriptionTyping && !description && "No description available."}
         </div>
-        {typingComplete && (
-          <button
-            className={`mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition animate-fade-in animate-heartbeat`}
-            onClick={() => setShowHow(true)}
-          >
-            YES, HOW DO I "DO THE WORK?"
-          </button>
-        )}
+        {typingComplete && <button className={`mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition animate-fade-in animate-heartbeat`} onClick={() => setShowHow(true)}>YES, HOW DO I "DO THE WORK?"</button>}
       </div>
     );
   }
-
   if (photoStatus === "done" && showWhy && showHow && !showMadLib) {
+    // ... (This section remains unchanged)
     return (
       <div className="flex flex-col items-center">
         <div className="text-white text-center py-4 font-semibold amatic-sc-bold text-4xl">
-          <TypewriterText
-            text="It's actually not "
-            className="inline"
-            typingSpeed={60}
-            onComplete={() => setShowMy(true)}
-            reset={resetTyping}
-            showCursor={false}
-          />
-          {showMy && (
-            <TypewriterText
-              text="MY"
-              className="inline font-black text-glow"
-              typingSpeed={60}
-              onComplete={() => setShowJob(true)}
-              reset={resetTyping}
-              showCursor={false}
-            />
-          )}
-          {showJob && (
-            <TypewriterText
-              text={` job to "do the work" for you`}
-              className="inline"
-              typingSpeed={60}
-              onComplete={() => {}}
-              reset={resetTyping}
-              showCursor={true}
-            />
-          )}
+          <TypewriterText text="It's actually not " className="inline" typingSpeed={60} onComplete={() => setShowMy(true)} reset={resetTyping} showCursor={false} />
+          {showMy && <TypewriterText text="MY" className="inline font-black text-glow" typingSpeed={60} onComplete={() => setShowJob(true)} reset={resetTyping} showCursor={false} />}
+          {showJob && <TypewriterText text={` job to "do the work" for you`} className="inline" typingSpeed={60} onComplete={() => {}} reset={resetTyping} showCursor={true} />}
         </div>
-        <button
-          className="mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition"
-          onClick={() => setShowMadLib(true)}
-        >
-          OK... SO HOW DO I "DO THE WORK?"
-        </button>
+        <button className="mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition" onClick={() => setShowMadLib(true)}>OK... SO HOW DO I "DO THE WORK?"</button>
       </div>
     );
   }
-
   if (photoStatus === "done" && showWhy && showHow && showMadLib) {
     if (!madLibData) {
       return <div className="text-white">Loading recommendations...</div>;
     }
     return (
-      <div className="text-white text-left py-4 font-semibold w-full">
+      <div className="text-white text-left py-4 font-semibold w-full max-w-lg">
         {madLibStep >= 0 && <span><TypewriterText text="Well, first of all, you should be attending at least one " onComplete={() => setMadLibStep(1)} /></span>}
         {madLibStep >= 1 && <span><b>Sacrament Meeting</b><TypewriterText text=" every week. You can find your local ward / temple at the " onComplete={() => setMadLibStep(2)} /></span>}
         {madLibStep >= 2 && <span><a href="https://www.churchofjesuschrist.org" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline">Church of Latter Day Saints website</a><TypewriterText text="." onComplete={() => setMadLibStep(3)} /></span>}
