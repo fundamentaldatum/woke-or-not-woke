@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 
 const analysisSteps = [
-  "INITIALIZING SCAN...",
-  "CALIBRATING SENSORS...",
+  "CONSULTING SCRIPTURE...",
+  "READING THE ROOM...",
   "ANALYZING PIXEL MATRIX...",
   "DETECTING PATTERNS...",
   "CROSS-REFERENCING DATABASE...",
