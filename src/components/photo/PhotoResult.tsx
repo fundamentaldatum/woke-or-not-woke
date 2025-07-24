@@ -128,37 +128,36 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
           {madLibStep >= 0 && <TypewriterText text="Well, first of all, you should be attending at least one " className="inline" onComplete={() => setMadLibStep(1)} />}
           {madLibStep >= 1 && <b className="inline"><TypewriterText text="Sacrament Meeting" className="inline" onComplete={() => setMadLibStep(2)} /></b>}
           {madLibStep >= 2 && <TypewriterText text=" every week. You can find your local ward / temple at the " className="inline" onComplete={() => setMadLibStep(3)} />}
-          {madLibStep >= 3 && <a href="https://www.churchofjesuschrist.org" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="Church of Latter Day Saints website" className="inline" onComplete={() => setMadLibStep(4)} /></a>}
-          {madLibStep >= 4 && <TypewriterText text="." className="inline" onComplete={() => setMadLibStep(5)} />}
+          {madLibStep >= 3 && <a href="https://www.churchofjesuschrist.org" target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="Church of Latter Day Saints website." className="inline" onComplete={() => setMadLibStep(4)} /></a>}
         </div>
 
-        {madLibStep >= 5 && <div><TypewriterText text="If you’re really interested in “doing the work,” you’ll listen to:" onComplete={() => setMadLibStep(6)} /></div>}
-        {madLibStep >= 6 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Music Recommendation</h3>{renderDetails(madLibData.mormonMusic, {credit: "Artist", duration: "Runtime"})}<TypewriterText text="" onComplete={() => setMadLibStep(7)} showCursor={false}/></div>}
+        {madLibStep >= 4 && <div><TypewriterText text="If you’re really interested in “doing the work,” you’ll listen to:" onComplete={() => setMadLibStep(5)} /></div>}
+        {madLibStep >= 5 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Music Recommendation</h3>{renderDetails(madLibData.mormonMusic, {credit: "Artist", duration: "Runtime"})}<TypewriterText text="" onComplete={() => setMadLibStep(6)} showCursor={false}/></div>}
 
-        {madLibStep >= 7 && <div><TypewriterText text="You’ll also need to watch:" onComplete={() => setMadLibStep(8)} /></div>}
-        {madLibStep >= 8 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Film Recommendation</h3>{renderDetails(madLibData.mormonFilms, {credit: "Details", duration: "Runtime"})}<TypewriterText text="" onComplete={() => setMadLibStep(9)} showCursor={false}/></div>}
+        {madLibStep >= 6 && <div><TypewriterText text="You’ll also need to watch:" onComplete={() => setMadLibStep(7)} /></div>}
+        {madLibStep >= 7 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Film Recommendation</h3>{renderDetails(madLibData.mormonFilms, {credit: "Details", duration: "Runtime"})}<TypewriterText text="" onComplete={() => setMadLibStep(8)} showCursor={false}/></div>}
         
-        {madLibStep >= 9 && <div><TypewriterText text="This is not enough to successfully “do the work.” You should watch at least one season of:" onComplete={() => setMadLibStep(10)} /></div>}
-        {madLibStep >= 10 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">TV Show Recommendation</h3>{renderDetails(madLibData.mormonTVShows, {credit: "Network", duration: "Genre"})}<TypewriterText text="" onComplete={() => setMadLibStep(11)} showCursor={false}/></div>}
+        {madLibStep >= 8 && <div><TypewriterText text="This is not enough to successfully “do the work.” You should watch at least one season of:" onComplete={() => setMadLibStep(9)} /></div>}
+        {madLibStep >= 9 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">TV Show Recommendation</h3>{renderDetails(madLibData.mormonTVShows, {credit: "Network", duration: "Genre"})}<TypewriterText text="" onComplete={() => setMadLibStep(10)} showCursor={false}/></div>}
         
-        {madLibStep >= 11 && <div><TypewriterText text="At this point, your work remains incomplete. Enjoy some lighter material as you reflect on your depravity. Read:" onComplete={() => setMadLibStep(12)} /></div>}
-        {madLibStep >= 12 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Fiction Recommendation</h3>{renderDetails(madLibData.mormonFiction, {credit: "Author", duration: "Pages"})}<TypewriterText text="" onComplete={() => setMadLibStep(13)} showCursor={false}/></div>}
+        {madLibStep >= 10 && <div><TypewriterText text="At this point, your work remains incomplete. Enjoy some lighter material as you reflect on your depravity. Read:" onComplete={() => setMadLibStep(11)} /></div>}
+        {madLibStep >= 11 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Fiction Recommendation</h3>{renderDetails(madLibData.mormonFiction, {credit: "Author", duration: "Pages"})}<TypewriterText text="" onComplete={() => setMadLibStep(12)} showCursor={false}/></div>}
         
-        {madLibStep >= 13 && <div><TypewriterText text="Enough of this. It is time to take your “work” seriously. Read:" onComplete={() => setMadLibStep(14)} /></div>}
-        {madLibStep >= 14 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Non-Fiction Recommendation</h3>{renderDetails(madLibData.mormonNonFiction, {credit: "Author", duration: "Pages"})}<TypewriterText text="" onComplete={() => setMadLibStep(15)} showCursor={false}/></div>}
+        {madLibStep >= 12 && <div><TypewriterText text="Enough of this. It is time to take your “work” seriously. Read:" onComplete={() => setMadLibStep(13)} /></div>}
+        {madLibStep >= 13 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Non-Fiction Recommendation</h3>{renderDetails(madLibData.mormonNonFiction, {credit: "Author", duration: "Pages"})}<TypewriterText text="" onComplete={() => setMadLibStep(14)} showCursor={false}/></div>}
 
-        {madLibStep >= 15 && <div><TypewriterText text="Before your next " className="inline" onComplete={() => setMadLibStep(16)} /></div>}
-        {madLibStep >= 16 && <div><b className="inline"><TypewriterText text="Sacrament Meeting" className="inline" onComplete={() => setMadLibStep(17)} /></b><TypewriterText text=", make sure to subscribe and listen to at least a couple episodes of:" className="inline" onComplete={() => setMadLibStep(18)} /></div>}
-        {madLibStep >= 18 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Podcast Recommendation</h3>{renderDetails(madLibData.mormonPodcasts, {credit: "Network", duration: "Genre"})}<TypewriterText text="" onComplete={() => setMadLibStep(19)} showCursor={false}/></div>}
+        {madLibStep >= 14 && <div><TypewriterText text="Before your next " className="inline" onComplete={() => setMadLibStep(15)} /></div>}
+        {madLibStep >= 15 && <div><b className="inline"><TypewriterText text="Sacrament Meeting" className="inline" onComplete={() => setMadLibStep(16)} /></b><TypewriterText text=", make sure to subscribe and listen to at least a couple episodes of:" className="inline" onComplete={() => setMadLibStep(17)} /></div>}
+        {madLibStep >= 17 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Podcast Recommendation</h3>{renderDetails(madLibData.mormonPodcasts, {credit: "Network", duration: "Genre"})}<TypewriterText text="" onComplete={() => setMadLibStep(18)} showCursor={false}/></div>}
         
-        {madLibStep >= 19 && <div><TypewriterText text="If, at this point, you are still willing to “do the work,” you’ll visit:" onComplete={() => setMadLibStep(20)} /></div>}
-        {madLibStep >= 20 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Architecture to Visit</h3>{renderDetails(madLibData.mormonArchitecture, {credit: "Architect", duration: "Year"})}<TypewriterText text="" onComplete={() => setMadLibStep(21)} showCursor={false}/></div>}
+        {madLibStep >= 18 && <div><TypewriterText text="If, at this point, you are still willing to “do the work,” you’ll visit:" onComplete={() => setMadLibStep(19)} /></div>}
+        {madLibStep >= 19 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Architecture to Visit</h3>{renderDetails(madLibData.mormonArchitecture, {credit: "Architect", duration: "Year"})}<TypewriterText text="" onComplete={() => setMadLibStep(20)} showCursor={false}/></div>}
         
-        {madLibStep >= 21 && <div><TypewriterText text="There, you will find penance. Your work shall be complete. But not before you genuflect before:" onComplete={() => setMadLibStep(22)} /></div>}
-        {madLibStep >= 22 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Art to View</h3>{renderDetails(madLibData.mormonVisualArt, {credit: "Artist", duration: "Genre"})}<TypewriterText text="" onComplete={() => setMadLibStep(23)} showCursor={false}/></div>}
+        {madLibStep >= 20 && <div><TypewriterText text="There, you will find penance. Your work shall be complete. But not before you genuflect before:" onComplete={() => setMadLibStep(21)} /></div>}
+        {madLibStep >= 21 && <div className="p-3 border border-gray-600 rounded bg-gray-800/20"><h3 className="text-lg font-bold text-yellow-400 mb-1">Art to View</h3>{renderDetails(madLibData.mormonVisualArt, {credit: "Artist", duration: "Genre"})}<TypewriterText text="" onComplete={() => setMadLibStep(22)} showCursor={false}/></div>}
         
-        {madLibStep >= 23 && <div><TypewriterText text="Then, " className="inline" onComplete={() => setMadLibStep(24)} /></div>}
-        {madLibStep >= 24 && <div><b className="inline"><TypewriterText text="and only then" className="inline" onComplete={() => setMadLibStep(25)} /></b><TypewriterText text=", your “work” is complete. You have successfully rid yourself of woke-ness. Never watch television ever again." className="inline" onComplete={() => setMadLibStep(26)} /></div>}
+        {madLibStep >= 22 && <div><TypewriterText text="Then, " className="inline" onComplete={() => setMadLibStep(23)} /></div>}
+        {madLibStep >= 23 && <div><b className="inline"><TypewriterText text="and only then" className="inline" onComplete={() => setMadLibStep(24)} /></b><TypewriterText text=", your “work” is complete. You have successfully rid yourself of woke-ness. Never watch television ever again." className="inline" onComplete={() => setMadLibStep(25)} /></div>}
       </div>
     );
   }
