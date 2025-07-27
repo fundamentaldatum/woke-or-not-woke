@@ -177,7 +177,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
         {madLibStep >= 45 && (
             <div>
                 <TypewriterText text="Before your next " className="inline" onComplete={() => setMadLibStep(46)} />
-                {madLibStep >= 46 && <b className="inline"><TypewriterText text="Sacrament Meeting" className="inline" onComplete={() => setMadLibStep(47)} /></b>}
+                {madLibStep >= 46 && <b className="text-yellow-400 inline"><TypewriterText text="Sacrament Meeting" className="inline" onComplete={() => setMadLibStep(47)} /></b>}
                 {madLibStep >= 47 && <TypewriterText text={`, make sure to subscribe and listen to at least a couple episodes of ${madLibData.mormonPodcasts.title}. Since ${madLibData.mormonPodcasts.yearInitiallyReleased}, ${madLibData.mormonPodcasts.title} has consistently been at the top of Spotify’s most popular podcasts. It’s a ${madLibData.mormonPodcasts.genre} program produced by the venerable ${madLibData.mormonPodcasts.podcastNetwork} network you absolutely won’t want to miss. You can learn more here `} className="inline" onComplete={() => setMadLibStep(48)} />}
                 {madLibStep >= 48 && <a href={madLibData.mormonPodcasts.podcastLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(49)} /></a>}
             </div>
@@ -212,7 +212,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
             </div>
         )}
 
-        {madLibStep >= 63 && <div><b className="inline"><TypewriterText text="Never watch television again." className="inline" onComplete={() => setMadLibStep(64)} /></b></div>}
+        {madLibStep >= 63 && <div><b className="text-yellow-400 inline"><TypewriterText text="Never watch television again." className="inline" onComplete={() => setMadLibStep(64)} /></b></div>}
       </div>
     );
   }
