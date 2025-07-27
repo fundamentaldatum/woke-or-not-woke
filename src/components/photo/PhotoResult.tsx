@@ -37,6 +37,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   const [showMust, setShowMust] = useState(false);
   const [showKnow, setShowKnow] = useState(false);
   const [showDescriptionTyping, setShowDescriptionTyping] = useState(false);
+  const [showFollowUpText, setShowFollowUpText] = useState(false);
   const [showDoTheWorkButton, setShowDoTheWorkButton] = useState(false);
 
   const [madLibStep, setMadLibStep] = useState(0);
@@ -46,7 +47,8 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
     setResetDescriptionTyping(prev => !prev);
     setShowMust(false);
     setShowKnow(false);
-    setShowDescriptionTyping(false); 
+    setShowDescriptionTyping(false);
+    setShowFollowUpText(false);
   }, [showWhy]);
 
   useEffect(() => {
@@ -87,8 +89,24 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
           <TypewriterText text="If you " className="inline" typingSpeed={50} onComplete={() => setShowMust(true)} reset={resetDescriptionTyping} />
           {showMust && <TypewriterText text="MUST" className="inline italic" typingSpeed={50} onComplete={() => setShowKnow(true)} reset={resetDescriptionTyping} />}
           {showKnow && <TypewriterText text=" know... " className="inline" typingSpeed={50} onComplete={() => setShowDescriptionTyping(true)} reset={resetDescriptionTyping} />}
-          {showDescriptionTyping && description && <TypewriterText text={`${description} Clearly, there's more work to be done. Would you like to know how to "DO THE WORK?"`} className="inline" typingSpeed={30} onComplete={() => setTypingComplete(true)} reset={resetDescriptionTyping} />}
-          {showDescriptionTyping && !description && "No description available."}
+          
+          {showDescriptionTyping && (
+            <>
+              <br />
+              {description ? (
+                <TypewriterText text={description} className="inline" typingSpeed={30} onComplete={() => setShowFollowUpText(true)} reset={resetDescriptionTyping} />
+              ) : (
+                "No description available."
+              )}
+            </>
+          )}
+
+          {showFollowUpText && (
+            <>
+              <br />
+              <TypewriterText text={`Clearly, there's more work to be done. Would you like to know how to "DO THE WORK?"`} className="inline" typingSpeed={30} onComplete={() => setTypingComplete(true)} reset={resetDescriptionTyping} />
+            </>
+          )}
         </div>
         {typingComplete && <button className={`mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition animate-fade-in animate-heartbeat`} onClick={() => setShowHow(true)}>YES, HOW DO I "DO THE WORK?"</button>}
       </div>
