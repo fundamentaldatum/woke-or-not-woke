@@ -120,53 +120,99 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
             {madLibStep >= 11 && <b className="text-yellow-400 inline"><TypewriterText text={String(madLibData.mormonMusic.year)} className="inline" onComplete={() => setMadLibStep(12)} /></b>}
             {madLibStep >= 12 && <TypewriterText text=" and is just " className="inline" onComplete={() => setMadLibStep(13)} />}
             {madLibStep >= 13 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonMusic.runtime} className="inline" onComplete={() => setMadLibStep(14)} /></b>}
-            {madLibStep >= 14 && <TypewriterText text=" long. You can learn more here " className="inline" onComplete={() => setMadLibStep(15)} />}
-            {madLibStep >= 15 && <a href={madLibData.mormonMusic.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(16)} /></a>}
+            {madLibStep >= 14 && <TypewriterText text=" long. You can learn more here: " className="inline" onComplete={() => setMadLibStep(15)} />}
+            {madLibStep >= 15 && <a href={madLibData.mormonMusic.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="link" className="inline" onComplete={() => setMadLibStep(16)} /></a>}
+            {madLibStep >= 16 && <TypewriterText text="." className="inline" onComplete={() => setMadLibStep(17)} />}
           </div>
         )}
 
-        {madLibStep >= 16 && (
-          <div>
-            <TypewriterText text="You’ll also need to watch the classic film " className="inline" onComplete={() => setMadLibStep(17)} />
-            {madLibStep >= 17 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonFilms.title} className="inline" onComplete={() => setMadLibStep(18)} /></b>}
-            {madLibStep >= 18 && <TypewriterText text=". This edgy, controversial film received a boundary-pushing MPAA rating of " className="inline" onComplete={() => setMadLibStep(19)} />}
-            {madLibStep >= 19 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonFilms.mpaaRating} className="inline" onComplete={() => setMadLibStep(20)} /></b>}
-            {madLibStep >= 20 && <TypewriterText text=". Released in " className="inline" onComplete={() => setMadLibStep(21)} />}
-            {madLibStep >= 21 && <b className="text-yellow-400 inline"><TypewriterText text={String(madLibData.mormonFilms.year)} className="inline" onComplete={() => setMadLibStep(22)} /></b>}
-            {madLibStep >= 22 && <TypewriterText text=" and coming in at just " className="inline" onComplete={() => setMadLibStep(23)} />}
-            {madLibStep >= 23 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonFilms.runtime} className="inline" onComplete={() => setMadLibStep(24)} /></b>}
-            {madLibStep >= 24 && <TypewriterText text=", this is a critical part of your sanctification. You can learn more " className="inline" onComplete={() => setMadLibStep(25)} />}
-            {madLibStep >= 25 && <a href={madLibData.mormonFilms.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(26)} /></a>}
-          </div>
+        {madLibStep >= 17 && (
+            <div>
+                <TypewriterText text="You’ll also need to watch the classic film " className="inline" onComplete={() => setMadLibStep(18)} />
+                {madLibStep >= 18 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonFilms.title} className="inline" onComplete={() => setMadLibStep(19)} /></b>}
+                {madLibStep >= 19 && <TypewriterText text=". This edgy, controversial film received a boundary-pushing MPAA rating of " className="inline" onComplete={() => setMadLibStep(20)} />}
+                {madLibStep >= 20 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonFilms.mpaaRating} className="inline" onComplete={() => setMadLibStep(21)} /></b>}
+                {madLibStep >= 21 && <TypewriterText text=". Released in " className="inline" onComplete={() => setMadLibStep(22)} />}
+                {madLibStep >= 22 && <b className="text-yellow-400 inline"><TypewriterText text={String(madLibData.mormonFilms.year)} className="inline" onComplete={() => setMadLibStep(23)} /></b>}
+                {madLibStep >= 23 && <TypewriterText text=" and coming in at just " className="inline" onComplete={() => setMadLibStep(24)} />}
+                {madLibStep >= 24 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonFilms.runtime} className="inline" onComplete={() => setMadLibStep(25)} /></b>}
+                {madLibStep >= 25 && <TypewriterText text=", this is a critical part of your sanctification. You can learn more " className="inline" onComplete={() => setMadLibStep(26)} />}
+                {madLibStep >= 26 && <a href={madLibData.mormonFilms.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(27)} /></a>}
+            </div>
         )}
 
-        {madLibStep >= 26 && <div><TypewriterText text="This is not enough to sufficiently " className="inline" onComplete={() => setMadLibStep(27)} /></div>}
-        {madLibStep >= 27 && <b className="inline"><TypewriterText text="“do the work.”" className="inline" onComplete={() => setMadLibStep(28)} /></b>}
-        {madLibStep >= 28 && <TypewriterText text=" You should watch at least one season of " className="inline" onComplete={() => setMadLibStep(29)} />}
-        {madLibStep >= 29 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonTVShows.title} className="inline" onComplete={() => setMadLibStep(30)} /></b>}
-        {madLibStep >= 30 && <TypewriterText text={`. This ${madLibData.mormonTVShows.initialYearAired} ${madLibData.mormonTVShows.genre} series produced and broadcast by the legendary ${madLibData.mormonTVShows.network} is rightfully considered a seminal televisual work. You can learn more here `} className="inline" onComplete={() => setMadLibStep(31)} />}
-        {madLibStep >= 31 && <a href={madLibData.mormonTVShows.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(32)} /></a>}
-        
-        {madLibStep >= 32 && <div><TypewriterText text={`At this point, your work remains incomplete. Enjoy some lighter fare as you reflect on your depravity. Read ${madLibData.mormonFiction.title} by ${madLibData.mormonFiction.author}. First published in ${madLibData.mormonFiction.yearReleased}, ${madLibData.mormonFiction.title} is ${madLibData.mormonFiction.pageCount} pages of pure excitement. You can learn more here `} className="inline" onComplete={() => setMadLibStep(33)} /><a href={madLibData.mormonFiction.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(34)} /></a></div>}
-        
-        {madLibStep >= 34 && <div><TypewriterText text={`Enough of this. It is time to take your “work” seriously. Read ${madLibData.mormonNonFiction.title} by ${madLibData.mormonNonFiction.author}. Originally written in ${madLibData.mormonNonFiction.yearReleased}, ${madLibData.mormonNonFiction.title} is ${madLibData.mormonNonFiction.pageCount} pages of pure doctrinal truth. You can learn more here `} className="inline" onComplete={() => setMadLibStep(35)} /><a href={madLibData.mormonNonFiction.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(36)} /></a></div>}
+        {madLibStep >= 27 && (
+            <div>
+                <TypewriterText text="This is not enough to sufficiently " className="inline" onComplete={() => setMadLibStep(28)} />
+                {madLibStep >= 28 && <b className="inline"><TypewriterText text="“do the work.”" className="inline" onComplete={() => setMadLibStep(29)} /></b>}
+                {madLibStep >= 29 && <TypewriterText text=" You should watch at least one season of " className="inline" onComplete={() => setMadLibStep(30)} />}
+                {madLibStep >= 30 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonTVShows.title} className="inline" onComplete={() => setMadLibStep(31)} /></b>}
+                {madLibStep >= 31 && <TypewriterText text={`. This ${madLibData.mormonTVShows.initialYearAired} ${madLibData.mormonTVShows.genre} series produced and broadcast by the legendary ${madLibData.mormonTVShows.network} is rightfully considered a seminal televisual work. You can learn more here `} className="inline" onComplete={() => setMadLibStep(32)} />}
+                {madLibStep >= 32 && <a href={madLibData.mormonTVShows.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(33)} /></a>}
+            </div>
+        )}
 
-        {madLibStep >= 36 && <div><TypewriterText text="Before your next " className="inline" onComplete={() => setMadLibStep(37)} /></div>}
-        {madLibStep >= 37 && <b className="inline"><TypewriterText text="Sacrament Meeting" className="inline" onComplete={() => setMadLibStep(38)} /></b>}
-        {madLibStep >= 38 && <TypewriterText text={`, make sure to subscribe and listen to at least a couple episodes of ${madLibData.mormonPodcasts.title}. Since ${madLibData.mormonPodcasts.yearInitiallyReleased}, ${madLibData.mormonPodcasts.title} has consistently been at the top of Spotify’s most popular podcasts. It’s a ${madLibData.mormonPodcasts.genre} program produced by the venerable ${madLibData.mormonPodcasts.podcastNetwork} network you absolutely won’t want to miss. You can learn more here `} className="inline" onComplete={() => setMadLibStep(39)} />}
-        {madLibStep >= 39 && <a href={madLibData.mormonPodcasts.podcastLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(40)} /></a>}
-        
-        {madLibStep >= 40 && <div><TypewriterText text="If, at this point, you are still willing to " className="inline" onComplete={() => setMadLibStep(41)} /></div>}
-        {madLibStep >= 41 && <b className="inline"><TypewriterText text="“do the work,”" className="inline" onComplete={() => setMadLibStep(42)} /></b>}
-        {madLibStep >= 42 && <TypewriterText text={` you’ll make a pilgrimage to the ${madLibData.mormonArchitecture.title}. There you shall find penance.`} className="inline" onComplete={() => setMadLibStep(43)} />}
-        
-        {madLibStep >= 43 && <div><TypewriterText text={`There you shall find the extraordinary painting, ${madLibData.mormonVisualArt.title}, by latter day pioneer ${madLibData.mormonVisualArt.artist}. Finished in ${madLibData.mormonVisualArt.yearCompleted} after 15 years of dedicated work, ${madLibData.mormonVisualArt.title} remains one of the truly singular American artworks. You can learn more about it here `} className="inline" onComplete={() => setMadLibStep(44)} /><a href={madLibData.mormonVisualArt.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(45)} /></a></div>}
-        
-        {madLibStep >= 45 && <div><TypewriterText text="Genuflect accordingly. Your work is complete. You have " className="inline" onComplete={() => setMadLibStep(46)} /></div>}
-        {madLibStep >= 46 && <b className="inline"><TypewriterText text="”done the work.”" className="inline" onComplete={() => setMadLibStep(47)} /></b>}
-        {madLibStep >= 47 && <TypewriterText text=" Your heart has successfully been purged of woke-ness." className="inline" onComplete={() => setMadLibStep(48)} />}
+        {madLibStep >= 33 && (
+            <div>
+                <TypewriterText text={`At this point, your work remains incomplete. Enjoy some lighter fare as you reflect on your depravity. Read `} className="inline" onComplete={() => setMadLibStep(34)} />
+                {madLibStep >= 34 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonFiction.title} className="inline" onComplete={() => setMadLibStep(35)} /></b>}
+                {madLibStep >= 35 && <TypewriterText text=" by " className="inline" onComplete={() => setMadLibStep(36)} />}
+                {madLibStep >= 36 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonFiction.author} className="inline" onComplete={() => setMadLibStep(37)} /></b>}
+                {madLibStep >= 37 && <TypewriterText text={`. First published in ${madLibData.mormonFiction.yearReleased}, ${madLibData.mormonFiction.title} is ${madLibData.mormonFiction.pageCount} pages of pure excitement. You can learn more here `} className="inline" onComplete={() => setMadLibStep(38)} />}
+                {madLibStep >= 38 && <a href={madLibData.mormonFiction.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(39)} /></a>}
+            </div>
+        )}
 
-        {madLibStep >= 48 && <div><b className="inline"><TypewriterText text="Never watch television again." className="inline" onComplete={() => setMadLibStep(49)} /></b></div>}
+        {madLibStep >= 39 && (
+            <div>
+                <TypewriterText text={`Enough of this. It is time to take your “work” seriously. Read `} className="inline" onComplete={() => setMadLibStep(40)} />
+                {madLibStep >= 40 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonNonFiction.title} className="inline" onComplete={() => setMadLibStep(41)} /></b>}
+                {madLibStep >= 41 && <TypewriterText text=" by " className="inline" onComplete={() => setMadLibStep(42)} />}
+                {madLibStep >= 42 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonNonFiction.author} className="inline" onComplete={() => setMadLibStep(43)} /></b>}
+                {madLibStep >= 43 && <TypewriterText text={`. Originally written in ${madLibData.mormonNonFiction.yearReleased}, ${madLibData.mormonNonFiction.title} is ${madLibData.mormonNonFiction.pageCount} pages of pure doctrinal truth. You can learn more here `} className="inline" onComplete={() => setMadLibStep(44)} />}
+                {madLibStep >= 44 && <a href={madLibData.mormonNonFiction.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(45)} /></a>}
+            </div>
+        )}
+        
+        {madLibStep >= 45 && (
+            <div>
+                <TypewriterText text="Before your next " className="inline" onComplete={() => setMadLibStep(46)} />
+                {madLibStep >= 46 && <b className="inline"><TypewriterText text="Sacrament Meeting" className="inline" onComplete={() => setMadLibStep(47)} /></b>}
+                {madLibStep >= 47 && <TypewriterText text={`, make sure to subscribe and listen to at least a couple episodes of ${madLibData.mormonPodcasts.title}. Since ${madLibData.mormonPodcasts.yearInitiallyReleased}, ${madLibData.mormonPodcasts.title} has consistently been at the top of Spotify’s most popular podcasts. It’s a ${madLibData.mormonPodcasts.genre} program produced by the venerable ${madLibData.mormonPodcasts.podcastNetwork} network you absolutely won’t want to miss. You can learn more here `} className="inline" onComplete={() => setMadLibStep(48)} />}
+                {madLibStep >= 48 && <a href={madLibData.mormonPodcasts.podcastLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(49)} /></a>}
+            </div>
+        )}
+
+        {madLibStep >= 49 && (
+            <div>
+                <TypewriterText text="If, at this point, you are still willing to " className="inline" onComplete={() => setMadLibStep(50)} />
+                {madLibStep >= 50 && <b className="inline"><TypewriterText text="“do the work,”" className="inline" onComplete={() => setMadLibStep(51)} /></b>}
+                {madLibStep >= 51 && <TypewriterText text={` you’ll make a pilgrimage to the ${madLibData.mormonArchitecture.title}. There you shall find penance.`} className="inline" onComplete={() => setMadLibStep(52)} />}
+            </div>
+        )}
+
+        {madLibStep >= 52 && (
+            <div>
+                <TypewriterText text={`There you shall find the extraordinary painting, `} className="inline" onComplete={() => setMadLibStep(53)} />
+                {madLibStep >= 53 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonVisualArt.title} className="inline" onComplete={() => setMadLibStep(54)} /></b>}
+                {madLibStep >= 54 && <TypewriterText text={", by latter day pioneer "} className="inline" onComplete={() => setMadLibStep(55)} />}
+                {madLibStep >= 55 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonVisualArt.artist} className="inline" onComplete={() => setMadLibStep(56)} /></b>}
+                {madLibStep >= 56 && <TypewriterText text={`. Finished in ${madLibData.mormonVisualArt.yearCompleted} after 15 years of dedicated work, `} className="inline" onComplete={() => setMadLibStep(57)} />}
+                {madLibStep >= 57 && <b className="text-yellow-400 inline"><TypewriterText text={madLibData.mormonVisualArt.title} className="inline" onComplete={() => setMadLibStep(58)} /></b>}
+                {madLibStep >= 58 && <TypewriterText text={" remains one of the truly singular American artworks. You can learn more about it here "} className="inline" onComplete={() => setMadLibStep(59)} />}
+                {madLibStep >= 59 && <a href={madLibData.mormonVisualArt.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(60)} /></a>}
+            </div>
+        )}
+
+        {madLibStep >= 60 && (
+            <div>
+                <TypewriterText text="Genuflect accordingly. Your work is complete. You have " className="inline" onComplete={() => setMadLibStep(61)} />
+                {madLibStep >= 61 && <b className="inline"><TypewriterText text="”done the work.”" className="inline" onComplete={() => setMadLibStep(62)} /></b>}
+                {madLibStep >= 62 && <TypewriterText text=" Your heart has successfully been purged of woke-ness." className="inline" onComplete={() => setMadLibStep(63)} />}
+            </div>
+        )}
+
+        {madLibStep >= 63 && <div><b className="inline"><TypewriterText text="Never watch television again." className="inline" onComplete={() => setMadLibStep(64)} /></b></div>}
       </div>
     );
   }
