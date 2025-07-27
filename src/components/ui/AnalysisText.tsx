@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 
 const analysisSteps = [
-    "CONSULTING SCRIPTURE…",
-    "READING THE ROOM…",
-    "THINKING LONG AND HARD…",
-    "JUST ASKING QUESTIONS…",
-    "CONSIDERING THE FACTS…",
-    "MUNCHING…",
+    "CONSULTING SCRIPTURE...",
+    "READING THE ROOM...",
+    "THINKING LONG AND HARD...",
+    "JUST ASKING QUESTIONS...",
+    "CONSIDERING THE FACTS...",
+    "MUNCHING...",
     "FINALIZING ANALYSIS...",
   ];
 
