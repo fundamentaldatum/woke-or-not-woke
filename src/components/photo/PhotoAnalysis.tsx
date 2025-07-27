@@ -141,7 +141,7 @@ const PhotoAnalysis: React.FC = () => {
         </button>
       ) : null}
       
-      <TestButton onClick={handleTestButtonClick} />
+      {/* <TestButton onClick={handleTestButtonClick} /> */}
     </div>
   );
 };

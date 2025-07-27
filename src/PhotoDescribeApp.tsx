@@ -287,7 +287,7 @@ function PhotoDescribeApp() {
       ) : null}
       
       {/* Test Button for debugging */}
-      <TestButton onClick={handleTestButtonClick} />
+      {/* <TestButton onClick={handleTestButtonClick} /> */}
     </div>
   );
 }
