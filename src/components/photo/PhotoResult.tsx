@@ -98,7 +98,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
         <div className="text-white text-center py-4 font-semibold amatic-sc-bold text-4xl">
           <TypewriterText text="It's actually not " className="inline" typingSpeed={60} onComplete={() => setShowMy(true)} reset={resetTyping} showCursor={false} />
           {showMy && <TypewriterText text="MY" className="inline font-black text-glow" typingSpeed={60} onComplete={() => setShowJob(true)} reset={resetTyping} showCursor={false} />}
-          {showJob && <TypewriterText text={` job to "do the work" for you`} className="inline" typingSpeed={60} onComplete={() => {}} reset={resetTyping} showCursor={true} />}
+          {showJob && <TypewriterText text={` job to "do the work" for you`} className="inline" typingSpeed={60} onComplete={() => {}} reset={resetTyping} showCursor={false} />}
         </div>
         <button className="mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition" onClick={() => setShowMadLib(true)}>OK... SO HOW DO I "DO THE WORK?"</button>
       </div>
@@ -139,11 +139,11 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
             <div>
                 <TypewriterText text="You’ll also need to watch the classic film " className="inline" onComplete={() => setMadLibStep(18)} />
                 {madLibStep >= 18 && <StyledValue text={madLibData.mormonFilms.title} onComplete={() => setMadLibStep(19)} />}
-                {madLibStep >= 19 && <TypewriterText text=". This edgy, controversial film received a boundary-pushing MPAA rating of " className="inline" onComplete={() => setMadLibStep(20)} />}
+                {madLibStep >= 19 && <TypewriterText text=". This timeless, controversial film received a boundary-pushing MPAA rating of " className="inline" onComplete={() => setMadLibStep(20)} />}
                 {madLibStep >= 20 && <StyledValue text={madLibData.mormonFilms.mpaaRating} onComplete={() => setMadLibStep(21)} />}
                 {madLibStep >= 21 && <TypewriterText text=". Released in " className="inline" onComplete={() => setMadLibStep(22)} />}
                 {madLibStep >= 22 && <StyledValue text={madLibData.mormonFilms.year} onComplete={() => setMadLibStep(23)} />}
-                {madLibStep >= 23 && <TypewriterText text=" and coming in at just " className="inline" onComplete={() => setMadLibStep(24)} />}
+                {madLibStep >= 23 && <TypewriterText text=" and coming in at a lean " className="inline" onComplete={() => setMadLibStep(24)} />}
                 {madLibStep >= 24 && <StyledValue text={madLibData.mormonFilms.runtime} onComplete={() => setMadLibStep(25)} />}
                 {madLibStep >= 25 && <TypewriterText text=", this is a critical part of your sanctification. You can learn more " className="inline" onComplete={() => setMadLibStep(26)} />}
                 {madLibStep >= 26 && <a href={madLibData.mormonFilms.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(27)} /></a>}
@@ -179,7 +179,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                 {madLibStep >= 46 && <StyledValue text={madLibData.mormonFiction.title} onComplete={() => setMadLibStep(47)} />}
                 {madLibStep >= 47 && <TypewriterText text=" is " className="inline" onComplete={() => setMadLibStep(48)} />}
                 {madLibStep >= 48 && <StyledValue text={madLibData.mormonFiction.pageCount} onComplete={() => setMadLibStep(49)} />}
-                {madLibStep >= 49 && <TypewriterText text=" pages of pure excitement. You can learn more here " className="inline" onComplete={() => setMadLibStep(50)} />}
+                {madLibStep >= 49 && <TypewriterText text=" pages of longform delight. You can learn more here " className="inline" onComplete={() => setMadLibStep(50)} />}
                 {madLibStep >= 50 && <a href={madLibData.mormonFiction.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(51)} /></a>}
             </div>
         )}
@@ -196,7 +196,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                 {madLibStep >= 58 && <StyledValue text={madLibData.mormonNonFiction.title} onComplete={() => setMadLibStep(59)} />}
                 {madLibStep >= 59 && <TypewriterText text=" is " className="inline" onComplete={() => setMadLibStep(60)} />}
                 {madLibStep >= 60 && <StyledValue text={madLibData.mormonNonFiction.pageCount} onComplete={() => setMadLibStep(61)} />}
-                {madLibStep >= 61 && <TypewriterText text=" pages of pure doctrinal truth. You can learn more here " className="inline" onComplete={() => setMadLibStep(62)} />}
+                {madLibStep >= 61 && <TypewriterText text=" pages of unabashed doctrinal truth. You can learn more here " className="inline" onComplete={() => setMadLibStep(62)} />}
                 {madLibStep >= 62 && <a href={madLibData.mormonNonFiction.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(63)} /></a>}
             </div>
         )}

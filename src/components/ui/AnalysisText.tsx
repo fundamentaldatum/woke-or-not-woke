@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 const analysisSteps = [
-  "CONSULTING SCRIPTURE...",
-  "READING THE ROOM...",
-  "ANALYZING PIXEL MATRIX...",
-  "DETECTING PATTERNS...",
-  "CROSS-REFERENCING DATABASE...",
-  "COMPILING REPORT...",
-  "FINALIZING ANALYSIS...",
-];
+    "CONSULTING SCRIPTURE…",
+    "READING THE ROOM…",
+    "THINKING LONG AND HARD…",
+    "JUST ASKING QUESTIONS…",
+    "CONSIDERING THE FACTS…",
+    "MUNCHING…",
+    "FINALIZING ANALYSIS...",
+  ];
 
 const AnalysisText: React.FC = () => {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
