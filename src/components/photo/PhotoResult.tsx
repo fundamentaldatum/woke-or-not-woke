@@ -37,6 +37,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   const [showMust, setShowMust] = useState(false);
   const [showKnow, setShowKnow] = useState(false);
   const [showDescriptionTyping, setShowDescriptionTyping] = useState(false);
+  const [showDoTheWorkButton, setShowDoTheWorkButton] = useState(false);
 
   const [madLibStep, setMadLibStep] = useState(0);
 
@@ -53,6 +54,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
       setResetTyping(prev => !prev);
       setShowMy(false); 
       setShowJob(false);
+      setShowDoTheWorkButton(false);
     }
   }, [showHow]);
 
@@ -98,9 +100,16 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
         <div className="text-white text-center py-4 font-semibold amatic-sc-bold text-4xl">
           <TypewriterText text="It's actually not " className="inline" typingSpeed={60} onComplete={() => setShowMy(true)} reset={resetTyping} showCursor={false} />
           {showMy && <TypewriterText text="MY" className="inline font-black text-glow" typingSpeed={60} onComplete={() => setShowJob(true)} reset={resetTyping} showCursor={false} />}
-          {showJob && <TypewriterText text={` job to "do the work" for you`} className="inline" typingSpeed={60} onComplete={() => {}} reset={resetTyping} showCursor={false} />}
+          {showJob && <TypewriterText text={` job to "do the work" for you`} className="inline" typingSpeed={60} onComplete={() => setShowDoTheWorkButton(true)} reset={resetTyping} showCursor={false} />}
         </div>
-        <button className="mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition" onClick={() => setShowMadLib(true)}>OK... SO HOW DO I "DO THE WORK?"</button>
+        {showDoTheWorkButton && (
+          <button
+            className="mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition animate-fade-in"
+            onClick={() => setShowMadLib(true)}
+          >
+            OK... SO HOW DO I "DO THE WORK?"
+          </button>
+        )}
       </div>
     );
   }
