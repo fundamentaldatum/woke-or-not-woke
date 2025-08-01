@@ -59,16 +59,16 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
             What does <b className="text-yellow-400">WOKE</b> mean?
             <br />
             <br /> 
-            Is <i>your</i> image <b className="text-yellow-400">WOKE</b>?
+            Is <i className="text-yellow-400">your</i> image <b className="text-yellow-400">WOKE</b>?
             <br />
             <br />
-            <b className="text-blue-400">Tap</b> to upload a photo.
+            <b className="text-yellow-400">Tap</b> to upload a photo.
             <br />
             <br />
-            <b className="text-blue-400">Tap</b> the <b className="text-yellow-400">IS IT WOKE?</b> button below.
+            <b className="text-yellow-400">Tap</b> the <b className="text-yellow-400">IS IT WOKE?</b> button below.
             <br />
             <br />
-            <b className="text-red-500">Brace yourself.</b>
+            <b className="text-yellow-400">Brace yourself.</b>
           </span>
         )}
         <input
