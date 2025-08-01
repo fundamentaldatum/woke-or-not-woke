@@ -109,7 +109,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
             </>
           )}
         </div>
-        {typingComplete && <button className={`mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition animate-fade-in animate-heartbeat`} onClick={() => setShowHow(true)}>YES, HOW DO I "DO THE WORK?"</button>}
+        {typingComplete && <button className={`mt-2 mb-4 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition animate-fade-in animate-heartbeat`} onClick={() => setShowHow(true)}>YES, HOW DO I "DO THE WORK?"</button>}
       </div>
     );
   }
@@ -123,7 +123,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
         </div>
         {showDoTheWorkButton && (
           <button
-            className="mt-2 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition animate-fade-in"
+            className="mt-2 mb-4 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition animate-fade-in"
             onClick={() => setShowMadLib(true)}
           >
             OK... SO HOW DO I "DO THE WORK?"
