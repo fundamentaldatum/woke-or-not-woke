@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { PhotoResultProps } from '../../types';
 import { TypewriterText, AnalysisText } from '../../components/ui';
 
@@ -32,7 +32,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   const [typingComplete, setTypingComplete] = useState(false);
   const [resetTyping, setResetTyping] = useState(false);
   const [resetDescriptionTyping, setResetDescriptionTyping] = useState(false);
-  
+
   const [showMy, setShowMy] = useState(false);
   const [showJob, setShowJob] = useState(false);
   const [showMust, setShowMust] = useState(false);
@@ -42,6 +42,16 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   const [showDoTheWorkButton, setShowDoTheWorkButton] = useState(false);
 
   const [madLibStep, setMadLibStep] = useState(0);
+  const messagesEndRef = useRef<null | HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [madLibStep, showWhy, showHow, showMadLib, typingComplete, showFollowUpText, showDoTheWorkButton]);
+
 
   useEffect(() => {
     setTypingComplete(false);
@@ -55,7 +65,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   useEffect(() => {
     if (showHow) {
       setResetTyping(prev => !prev);
-      setShowMy(false); 
+      setShowMy(false);
       setShowJob(false);
       setShowDoTheWorkButton(false);
     }
@@ -66,7 +76,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
       setMadLibStep(0);
     }
   }, [showMadLib]);
-  
+
   if (photoStatus === "pending") {
     return <div className="w-full max-w-xs"><AnalysisText /></div>;
   }
@@ -90,7 +100,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
           <TypewriterText text="If you " className="inline" typingSpeed={50} onComplete={() => setShowMust(true)} reset={resetDescriptionTyping} />
           {showMust && <TypewriterText text="MUST" className="inline italic" typingSpeed={50} onComplete={() => setShowKnow(true)} reset={resetDescriptionTyping} />}
           {showKnow && <TypewriterText text=" know... " className="inline" typingSpeed={50} onComplete={() => setShowDescriptionTyping(true)} reset={resetDescriptionTyping} />}
-          
+
           {showDescriptionTyping && (
             <>
               <br />
@@ -110,6 +120,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
           )}
         </div>
         {typingComplete && <button className={`mt-2 mb-4 bg-blue-700 hover:bg-blue-800 text-white font-bold py-2 px-4 rounded transition animate-fade-in animate-heartbeat`} onClick={() => setShowHow(true)}>YES, HOW DO I "DO THE WORK?"</button>}
+        <div ref={messagesEndRef} />
       </div>
     );
   }
@@ -129,6 +140,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
             OK... SO HOW DO I "DO THE WORK?"
           </button>
         )}
+        <div ref={messagesEndRef} />
       </div>
     );
   }
@@ -282,6 +294,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
         )}
 
         {madLibStep >= 95 && <div><b className="text-yellow-400 inline"><TypewriterText text="Never watch television again." className="inline" onComplete={() => { setMadLibStep(96); onFlowComplete(); }} /></b></div>}
+        <div ref={messagesEndRef} />
       </div>
     );
   }
