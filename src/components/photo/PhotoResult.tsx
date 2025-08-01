@@ -27,6 +27,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
   isResultVisible,
   madLibData,
   showMadLib,
+  onFlowComplete,
 }) => {
   const [typingComplete, setTypingComplete] = useState(false);
   const [resetTyping, setResetTyping] = useState(false);
@@ -280,7 +281,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
             </div>
         )}
 
-        {madLibStep >= 95 && <div><b className="text-yellow-400 inline"><TypewriterText text="Never watch television again." className="inline" onComplete={() => setMadLibStep(96)} /></b></div>}
+        {madLibStep >= 95 && <div><b className="text-yellow-400 inline"><TypewriterText text="Never watch television again." className="inline" onComplete={() => { setMadLibStep(96); onFlowComplete(); }} /></b></div>}
       </div>
     );
   }

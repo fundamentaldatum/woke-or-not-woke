@@ -18,6 +18,7 @@ const PhotoAnalysis: React.FC = () => {
   const [spinning, setSpinning] = useState(false);
   const [isResultVisible, setIsResultVisible] = useState(false);
   const [wokeColor, setWokeColor] = useState(COLORS.RED);
+  const [showResetButton, setShowResetButton] = useState(false);
   
   // Photo upload state and handlers
   const {
@@ -36,7 +37,19 @@ const PhotoAnalysis: React.FC = () => {
   // When a new image is submitted, hide the result button
   const handleCustomSubmit = async () => {
     setIsResultVisible(false);
+    setShowResetButton(false);
     await handleSubmit();
+  };
+  
+  // Show the reset button when the mad-lib flow is complete
+  const handleFlowComplete = useCallback(() => {
+    setShowResetButton(true);
+  }, []);
+  
+  const handleCustomReset = () => {
+    handleReset();
+    setIsResultVisible(false);
+    setShowResetButton(false);
   };
 
   useEffect(() => {
@@ -49,6 +62,9 @@ const PhotoAnalysis: React.FC = () => {
   useEffect(() => {
     if (state.photoStatus === "done" || state.photoStatus === "error") {
       setSpinning(false);
+      if (state.photoStatus === "error") {
+        setShowResetButton(true);
+      }
     }
   }, [state.photoStatus]);
   
@@ -84,6 +100,7 @@ const PhotoAnalysis: React.FC = () => {
         latestPhotoId: null
       });
       setIsResultVisible(false);
+      setShowResetButton(false);
     } catch (err: any) {
       console.error("Error creating test image:", err);
       updateState({ error: "Failed to create test image" });
@@ -126,20 +143,18 @@ const PhotoAnalysis: React.FC = () => {
           isResultVisible={isResultVisible}
           madLibData={madLibData}
           showMadLib={state.showMadLib}
+          onFlowComplete={handleFlowComplete}
         />
       </div>
 
-      {state.photoStatus === "done" || state.photoStatus === "error" ? (
+      {showResetButton && (
         <button
           className="mt-4 bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition"
-          onClick={() => {
-            handleReset();
-            setIsResultVisible(false);
-          }}
+          onClick={handleCustomReset}
         >
           Reset
         </button>
-      ) : null}
+      )}
       
       {/* <TestButton onClick={handleTestButtonClick} /> */}
     </div>

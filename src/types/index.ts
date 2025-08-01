@@ -55,6 +55,7 @@ export interface PhotoResultProps {
   isResultVisible: boolean;
   madLibData: any;
   showMadLib: boolean;
+  onFlowComplete: () => void; // Add this line
 }
 
 export interface TypewriterTextProps {
