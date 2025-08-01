@@ -62,7 +62,7 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
             Is <ins><b><i>your</i></b></ins> image <b className="text-yellow-400">WOKE</b>?
             <br />
             <br />
-            <b className="text-yellow-400">Tap</b> to <ins><i><b>upload an image</b></i></ins>.
+            <b className="text-yellow-400">Tap</b> here to <ins><i><b>upload an image</b></i></ins>.
             <br />
             <br />
             <b className="text-yellow-400">Tap</b> the <b className="text-yellow-400">IS IT WOKE?</b> button below to <ins><i><b>begin analysis</b></i></ins>.
