@@ -55,7 +55,7 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
             />
           </div>
         ) : (
-          <span className="text-gray-300">
+          <span className="text-white-300">
             What does <b className="text-yellow-400">WOKE</b> mean?
             <br />
             <br /> 
@@ -68,7 +68,7 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
             <b className="text-yellow-400">Tap</b> the <b className="text-yellow-400">IS IT WOKE?</b> button below.
             <br />
             <br />
-            <b className="text-yellow-400">Brace yourself.</b>
+            <b><i className="text-yellow-400">Brace yourself.</i></b>
           </span>
         )}
         <input
