@@ -56,9 +56,14 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
           </div>
         ) : (
           <span className="text-gray-300">
-            What does <b>"WOKE"</b> mean? Is your image <i>woke</i>?
+            What does <b>"WOKE"</b> mean?
             <br />
-            Drag & drop or click to upload a photo.
+            <br /> 
+            Is your image <i>woke</i>?
+            <br />
+            <br />
+            Tap to upload a photo.
+            <br />
             <br />
             Our <b><i>in-house</i></b> AI algorithm will analyze your image's woke-ness and return a definitive answer.
           </span>
