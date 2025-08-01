@@ -55,7 +55,7 @@ export const PhotoUpload: React.FC<PhotoUploadProps> = ({
             />
           </div>
         ) : (
-          <span className="text-white-300">
+          <span className="text-white">
             What does <b className="text-yellow-400">WOKE</b> mean?
             <br />
             <br /> 
