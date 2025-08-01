@@ -17,21 +17,21 @@ const applicationTables = {
     artist: v.string(),
     year: v.number(),
     runtime: v.string(),
-    wikipediaLink: v.string(), // Corrected
+    wikipediaLink: v.string(),
   }),
   mormonFilms: defineTable({
     title: v.string(),
     year: v.number(),
     mpaaRating: v.string(),
     runtime: v.string(),
-    wikipediaLink: v.string(), // Corrected
+    wikipediaLink: v.string(),
   }),
   mormonTVShows: defineTable({
     title: v.string(),
     network: v.string(),
     initialYearAired: v.number(),
     genre: v.string(),
-    wikipediaLink: v.string(), // Corrected
+    wikipediaLink: v.string(),
   }),
   mormonFiction: defineTable({
     title: v.string(),
@@ -52,7 +52,7 @@ const applicationTables = {
     podcastNetwork: v.string(),
     yearInitiallyReleased: v.number(),
     genre: v.string(),
-    podcastLink: v.string(), // Corrected
+    podcastLink: v.string(),
   }),
   mormonArchitecture: defineTable({
     title: v.string(),
