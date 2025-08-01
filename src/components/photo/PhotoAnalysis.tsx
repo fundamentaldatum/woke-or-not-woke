@@ -152,7 +152,7 @@ const PhotoAnalysis: React.FC = () => {
           className="mt-4 bg-gray-700 hover:bg-gray-800 text-white font-bold py-2 px-4 rounded transition"
           onClick={handleCustomReset}
         >
-          Reset
+          CARE TO DO MORE WORK?
         </button>
       )}
       

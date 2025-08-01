@@ -157,8 +157,8 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
             {madLibStep >= 11 && <StyledValue text={madLibData.mormonMusic.year} onComplete={() => setMadLibStep(12)} />}
             {madLibStep >= 12 && <TypewriterText text=" and is just " className="inline" onComplete={() => setMadLibStep(13)} />}
             {madLibStep >= 13 && <StyledValue text={madLibData.mormonMusic.runtime} onComplete={() => setMadLibStep(14)} />}
-            {madLibStep >= 14 && <TypewriterText text=" long. You can learn more here: " className="inline" onComplete={() => setMadLibStep(15)} />}
-            {madLibStep >= 15 && <a href={madLibData.mormonMusic.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="link" className="inline" onComplete={() => setMadLibStep(16)} /></a>}
+            {madLibStep >= 14 && <TypewriterText text=" long. You can learn more " className="inline" onComplete={() => setMadLibStep(15)} />}
+            {madLibStep >= 15 && <a href={madLibData.mormonMusic.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here" className="inline" onComplete={() => setMadLibStep(16)} /></a>}
             {madLibStep >= 16 && <TypewriterText text="." className="inline" onComplete={() => setMadLibStep(17)} />}
           </div>
         )}
@@ -190,7 +190,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                 {madLibStep >= 34 && <StyledValue text={madLibData.mormonTVShows.genre} onComplete={() => setMadLibStep(35)} />}
                 {madLibStep >= 35 && <TypewriterText text=" series produced and broadcast by the legendary " className="inline" onComplete={() => setMadLibStep(36)} />}
                 {madLibStep >= 36 && <StyledValue text={madLibData.mormonTVShows.network} onComplete={() => setMadLibStep(37)} />}
-                {madLibStep >= 37 && <TypewriterText text=" is rightfully considered a seminal televisual work. You can learn more here " className="inline" onComplete={() => setMadLibStep(38)} />}
+                {madLibStep >= 37 && <TypewriterText text=" is rightfully considered a seminal televisual work. You can learn more " className="inline" onComplete={() => setMadLibStep(38)} />}
                 {madLibStep >= 38 && <a href={madLibData.mormonTVShows.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(39)} /></a>}
             </div>
         )}
@@ -207,7 +207,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                 {madLibStep >= 46 && <StyledValue text={madLibData.mormonFiction.title} onComplete={() => setMadLibStep(47)} />}
                 {madLibStep >= 47 && <TypewriterText text=" is " className="inline" onComplete={() => setMadLibStep(48)} />}
                 {madLibStep >= 48 && <StyledValue text={madLibData.mormonFiction.pageCount} onComplete={() => setMadLibStep(49)} />}
-                {madLibStep >= 49 && <TypewriterText text=" pages of longform delight. You can learn more here " className="inline" onComplete={() => setMadLibStep(50)} />}
+                {madLibStep >= 49 && <TypewriterText text=" pages of longform delight. You can learn more " className="inline" onComplete={() => setMadLibStep(50)} />}
                 {madLibStep >= 50 && <a href={madLibData.mormonFiction.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(51)} /></a>}
             </div>
         )}
@@ -224,7 +224,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                 {madLibStep >= 58 && <StyledValue text={madLibData.mormonNonFiction.title} onComplete={() => setMadLibStep(59)} />}
                 {madLibStep >= 59 && <TypewriterText text=" is " className="inline" onComplete={() => setMadLibStep(60)} />}
                 {madLibStep >= 60 && <StyledValue text={madLibData.mormonNonFiction.pageCount} onComplete={() => setMadLibStep(61)} />}
-                {madLibStep >= 61 && <TypewriterText text=" pages of unabashed doctrinal truth. You can learn more here " className="inline" onComplete={() => setMadLibStep(62)} />}
+                {madLibStep >= 61 && <TypewriterText text=" pages of unabashed doctrinal truth. You can learn more " className="inline" onComplete={() => setMadLibStep(62)} />}
                 {madLibStep >= 62 && <a href={madLibData.mormonNonFiction.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(63)} /></a>}
             </div>
         )}
@@ -243,7 +243,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                 {madLibStep >= 72 && <StyledValue text={madLibData.mormonPodcasts.genre} onComplete={() => setMadLibStep(73)} />}
                 {madLibStep >= 73 && <TypewriterText text={" program produced by the venerable "} className="inline" onComplete={() => setMadLibStep(74)} />}
                 {madLibStep >= 74 && <StyledValue text={madLibData.mormonPodcasts.podcastNetwork} onComplete={() => setMadLibStep(75)} />}
-                {madLibStep >= 75 && <TypewriterText text={" network you absolutely won’t want to miss. You can learn more here "} className="inline" onComplete={() => setMadLibStep(76)} />}
+                {madLibStep >= 75 && <TypewriterText text={" network you absolutely won’t want to miss. You can learn more "} className="inline" onComplete={() => setMadLibStep(76)} />}
                 {madLibStep >= 76 && <a href={madLibData.mormonPodcasts.podcastLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(77)} /></a>}
             </div>
         )}
@@ -268,7 +268,7 @@ export const PhotoResult: React.FC<PhotoResultProps> = ({
                 {madLibStep >= 87 && <StyledValue text={madLibData.mormonVisualArt.yearCompleted} onComplete={() => setMadLibStep(88)} />}
                 {madLibStep >= 88 && <TypewriterText text={" after 15 years of dedicated work, "} className="inline" onComplete={() => setMadLibStep(89)} />}
                 {madLibStep >= 89 && <StyledValue text={madLibData.mormonVisualArt.title} onComplete={() => setMadLibStep(90)} />}
-                {madLibStep >= 90 && <TypewriterText text={" remains one of the truly singular American artworks. You can learn more about it here "} className="inline" onComplete={() => setMadLibStep(91)} />}
+                {madLibStep >= 90 && <TypewriterText text={" remains one of the truly singular American artworks. You can learn more about it "} className="inline" onComplete={() => setMadLibStep(91)} />}
                 {madLibStep >= 91 && <a href={madLibData.mormonVisualArt.wikipediaLink} target="_blank" rel="noopener noreferrer" className="text-blue-400 underline inline"><TypewriterText text="here." className="inline" onComplete={() => setMadLibStep(92)} /></a>}
             </div>
         )}
