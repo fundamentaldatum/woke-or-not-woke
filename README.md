@@ -96,3 +96,72 @@ The application is deployed to:
 
 * wokeornotwoke.org
 * wokeornotwoke.com
+
+---
+
+### Project Structure
+
+This repository was reorganized for clarity and maintainability. Highlights:
+- Duplicates removed to avoid confusion (single canonical source for each component/utility)
+- Feature-oriented structure introduced for photo analysis UI
+- Static datasets moved under data/raw
+- Generated SDK noise reduced in PRs
+
+Top-level layout:
+- public/ — static assets only (note: public/index.html removed; Vite uses root index.html)
+- src/
+  - components/
+    - layout/ — layout primitives (Layout, Header)
+    - photo/ — photo feature components (PhotoUpload, PhotoAnalysis, PhotoResult)
+    - ui/ — UI primitives (PixelateOverlay, SpinnerButton, TestButton, TypewriterText, AnalysisText)
+    - auth/ — auth UI (SignInForm, SignOutButton)
+    - index.ts — barrel exports for components
+  - features/
+    - photoDescribe/ — feature shell (PhotoDescribeApp, Landing)
+  - hooks/ — useSession, usePhotoUpload, usePhotoAnalysis and barrel
+  - lib/ — app-specific utilities (sessionUtils, utils)
+  - constants/ — COLORS, ANIMATION, STORAGE_KEYS, UI constants
+  - types/ — shared TypeScript types (SpinnerButtonProps, Photo state, etc.)
+  - utils/ — re-exports from lib/utils for backward compatibility only
+- convex/
+  - schema.ts, router.ts, function files
+  - _generated/ — marked linguist-generated in .gitattributes to reduce PR noise
+- data/
+  - raw/ — source datasets (CSV/XLSX). Consider converting to JSON or using Git LFS if large.
+
+### Changes Applied
+
+- Deleted:
+  - .DS_Store
+  - public/index.html (duplicate entry point)
+  - src/components/PixelateOverlay.tsx (duplicate of ui/PixelateOverlay)
+  - src/components/SpinnerButton.tsx (duplicate of ui/SpinnerButton)
+  - src/components/PhotoUpload.tsx (kept canonical components/photo/PhotoUpload.tsx)
+  - src/utils/sessionUtils.ts (canonical in src/lib/sessionUtils.ts)
+
+- Moved:
+  - src/SignInForm.tsx → src/components/auth/SignInForm.tsx
+  - src/SignOutButton.tsx → src/components/auth/SignOutButton.tsx
+  - src/PhotoDescribeApp.tsx → src/features/photoDescribe/PhotoDescribeApp.tsx
+  - src/components/LandingPhotoDescribe.tsx → src/features/photoDescribe/Landing.tsx
+  - databases/* → data/raw/*
+
+- Import fixes:
+  - Updated PhotoDescribeApp imports to reference ../../components/ui and ../../../convex/_generated/*
+  - Updated useSession to import from ../lib/sessionUtils
+  - src/utils/index.ts now re-exports from ../lib/utils for compatibility
+
+- Tooling:
+  - .gitignore augmented (macOS, logs, tooling, coverage, etc.)
+  - .gitattributes marks convex/_generated/* as linguist-generated
+
+### Dataset Usage
+
+If datasets are required at runtime:
+- For static fetches, convert to JSON and serve from public/data (or generate at build time).
+If used for tooling or seeding only:
+- Keep under data/raw; optionally ignore large .xlsx via the commented rule in .gitignore or use Git LFS.
+
+### Build
+
+- Vite build verified: npm run build

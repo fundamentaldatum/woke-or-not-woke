@@ -3,7 +3,7 @@
  */
 
 import { useState, useEffect } from 'react';
-import { getSessionId } from '../utils/sessionUtils';
+import { getSessionId } from '../lib/sessionUtils';
 
 /**
  * Hook to get and manage the current user session

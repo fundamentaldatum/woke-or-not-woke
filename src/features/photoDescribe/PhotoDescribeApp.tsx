@@ -1,12 +1,11 @@
 import React, { useRef, useState, useEffect } from "react";
-import SpinnerButton from "./components/SpinnerButton";
-import PixelateOverlay from "./components/PixelateOverlay";
-import TestButton from "./components/ui/TestButton";
+import { SpinnerButton, PixelateOverlay, TestButton } from "../../components/ui";
 import { useMutation, useQuery } from "convex/react";
-import { api } from "../convex/_generated/api";
-import { Id } from "../convex/_generated/dataModel";
-import { getSessionId } from "./lib/sessionUtils";
-import { createBlankWhiteImage } from "./lib/utils";
+import { api } from "../../../convex/_generated/api";
+import { Id } from "../../../convex/_generated/dataModel";
+import { getSessionId } from "../../lib/sessionUtils";
+import { createBlankWhiteImage } from "../../lib/utils";
+import { COLORS } from "../../constants";
 
 type PhotoStatus = "idle" | "pending" | "done" | "error";
 
@@ -268,6 +267,8 @@ function PhotoDescribeApp() {
           }}
           disabled={!selectedFile || photoStatus === "pending"}
           showResult={photoStatus === "done"}
+          onAnimationComplete={() => {}}
+          wokeColor={COLORS.RED}
         />
       </div>
 
